@@ -1,0 +1,4 @@
+Kvizmesterek
+============
+
+Adatbazis kotelezo program
