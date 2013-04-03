@@ -5,5 +5,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
-<%@ include file="/WEB-INF/web/login.jsp"%>
+<%@ include file="/WEB-INF/web/home.jsp"%>
 
