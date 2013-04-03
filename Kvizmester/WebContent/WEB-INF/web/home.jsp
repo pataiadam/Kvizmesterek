@@ -12,7 +12,6 @@
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
 <link href="css/docs.css" rel="stylesheet">
-<link href="js/google-code-prettify/prettify.css" rel="stylesheet">
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
 <!-- Navbar
@@ -55,7 +54,7 @@
                     <li><a href="blog-single.html">Single Page</a></li>
                   </ul>
                 </li>
-                <li><a href="index.html">Purchase</a> </li>
+                <li><a href="">Purchase</a> </li>
               </ul>
             </div>
           </div>
@@ -105,7 +104,6 @@
 <!-- Placed at the end of the document so the pages load faster --> 
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
 <script src="js/jquery.js" type="text/javascript"></script> 
-<script src="js/google-code-prettify/prettify.js" type="text/javascript"></script> 
 <script src="js/bootstrap-transition.js" type="text/javascript"></script> 
 <script src="js/bootstrap-alert.js" type="text/javascript"></script> 
 <script src="js/bootstrap-modal.js" type="text/javascript"></script> 
@@ -120,8 +118,6 @@
 <script src="js/bootstrap-typeahead.js" type="text/javascript"></script> 
 <script src="js/bootstrap-affix.js" type="text/javascript"></script> 
 <script src="js/application.js" type="text/javascript"></script> 
-<script src="js/superfish.js" type="text/javascript"></script> 
-<script src="js/custom.js" type="text/javascript"></script> 
 <script type="text/javascript">
         $(document).ready(function () {
 
