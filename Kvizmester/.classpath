@@ -18,5 +18,9 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/stripes.jar"/>
+<<<<<<< HEAD
+=======
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
+>>>>>>> branch 'master' of https://github.com/pataiadam/Kvizmesterek.git
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
