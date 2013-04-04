@@ -29,7 +29,6 @@ public class HomeActionBean extends BaseActionBean implements ActionBean {
 	
 	@DefaultHandler
 	public Resolution addition() {
-		logger.info("log4j is mukodik");
 		return new ForwardResolution(VIEW);
 	}
 }

@@ -1,9 +1,10 @@
 package kvizmester.test;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -27,12 +28,7 @@ public class Test extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public Connection connect() throws ServletException, IOException {
 
 		System.out.println("-------- Oracle JDBC Connection Testing ------");
 
@@ -44,7 +40,7 @@ public class Test extends HttpServlet {
 
 			System.out.println("Where is your Oracle JDBC Driver?");
 			e.printStackTrace();
-			return;
+			return null;
 
 		}
 
@@ -55,13 +51,13 @@ public class Test extends HttpServlet {
 		try {
 
 			connection = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:xe", "rigo", "santag");
+					"jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "admin");
 
 		} catch (SQLException e) {
 
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
-			return;
+			return null;
 
 		}
 
@@ -70,14 +66,75 @@ public class Test extends HttpServlet {
 		} else {
 			System.out.println("Failed to make connection!");
 		}
+		
+		return connection;
+	}
+	
+	public boolean validateUser(String username, String password) {
+		
+		Connection connection = null;
+		
+		try {
+			connection = this.connect();
+		} catch (ServletException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 "
-				+ "Transitional//EN\">\n" + "<HTML>\n"
-				+ "<HEAD><TITLE>Oracle Connection Test</TITLE></HEAD>\n"
-				+ "<BODY>\n" + "<H1>Minden rendben</H1>\n" + "</BODY></HTML>");
-
+		PreparedStatement preparedStatement = null;
+		 
+		String selectSQL = "SELECT * FROM jatekos WHERE felhasznalo_nev=? AND jelszo=?";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+ 
+			// execute select SQL stetement
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			int foundUsers = 0;
+ 
+			while (rs.next()) {
+				foundUsers++;
+			}
+			
+			if(foundUsers > 0) {
+				return true;
+			} else {
+				return false;
+			}
+ 
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+ 
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	/**

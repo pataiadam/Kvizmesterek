@@ -8,6 +8,7 @@ import java.util.Set;
 import kvizmester.action.LoginActionBean;
 import kvizmester.common.BaseActionBean;
 import kvizmester.common.BaseActionBeanContext;
+import kvizmester.test.Test;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -65,16 +66,17 @@ public class LoginInterceptor implements Interceptor {
 	 * Intercepts execution and checks that the user has appropriate
 	 * permissions.
 	 */
+	@Override
 	public Resolution intercept(ExecutionContext execContext) throws Exception {
+		
+		Test test = new Test();
+		test.connect();
 		Resolution resolution = execContext.proceed();
-
+		
 		final BaseActionBeanContext ctx = (BaseActionBeanContext) execContext
 				.getActionBeanContext();
-		System.out.println("oke: "
-				+ (ctx.getUser() == null)
-				+ "  "
-				+ !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
-						execContext.getActionBean().getClass()));
+		
+		
 		if (ctx.getUser() == null
 				&& !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
 						execContext.getActionBean().getClass())) {

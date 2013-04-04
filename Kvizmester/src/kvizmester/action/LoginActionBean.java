@@ -1,6 +1,7 @@
 package kvizmester.action;
 
 import kvizmester.common.BaseActionBean;
+import kvizmester.test.Test;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -16,18 +17,18 @@ public class LoginActionBean extends BaseActionBean {
 	/**
 	 * Main view
 	 */
-	private static final String VIEW = "/WEB-INF/web/login.jsp";
+	public static final String VIEW = "/WEB-INF/web/login.jsp";
 
 	/**
 	 * The username.
 	 */
-	@Validate(required = true)
+	@Validate(field = "username", required = true)
 	private String username;
 
 	/**
 	 * The password.
 	 */
-	@Validate(required = true)
+	@Validate(field = "password", required = true)
 	private String password;
 
 	/**
@@ -69,21 +70,17 @@ public class LoginActionBean extends BaseActionBean {
 	@DefaultHandler
 	@DontValidate
 	public Resolution view() {
+		Test test = new Test();
+
+		if (test.validateUser(username, password)) {
+			getContext().setUser(username);
+			getContext().setRole(Role.LOGGED_IN_USER);
+			return new RedirectResolution(HomeActionBean.class);
+		}
 		if (getContext().getUser() != null) {
 			return new RedirectResolution(HomeActionBean.class);
 		}
 		return new ForwardResolution(VIEW);
-	}
-
-	/**
-	 * Login action.
-	 * 
-	 * @return to the main page.
-	 */
-	public Resolution login() {
-		getContext().setUser(username);
-		getContext().setRole(Role.LOGGED_IN_USER);
-		return new RedirectResolution(HomeActionBean.class);
 	}
 
 	/**
