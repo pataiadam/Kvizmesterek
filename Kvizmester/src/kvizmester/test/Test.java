@@ -51,7 +51,7 @@ public class Test extends HttpServlet {
 		try {
 
 			connection = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "admin");
+					"jdbc:oracle:thin:@10.110.10.1:1521:xe", "SYSTEM", "admin");
 
 		} catch (SQLException e) {
 
