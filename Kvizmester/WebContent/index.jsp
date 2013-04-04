@@ -7,3 +7,8 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 <%@ include file="/WEB-INF/web/home.jsp"%>
 
+<s:url beanclass="kvizmester.action.HomeActionBean" var="loginURL" />
+	
+<script type="text/javascript">
+	window.location = '${loginURL}';
+</script>

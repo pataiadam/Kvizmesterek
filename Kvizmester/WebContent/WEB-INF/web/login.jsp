@@ -8,16 +8,18 @@
 
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
-		<s:form beanclass="kvizmester.action.LoginActionBean" >
+		<s:form beanclass="kvizmester.action.LoginActionBean"  >
 			<s:errors />
 			
-			<table>
+			<table align="center">
 				<tr>
 					<td>
 						<s:label name="label.username" for="username" />
 					</td>
 					<td>
 						<s:text id="username" name="username" />
+						<s:errors field="username"/>
+						
 					</td>
 				</tr>
 				<tr>
@@ -29,8 +31,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">
-						<s:submit name="login" />
+					<td></td>
+					<td>
+						<s:submit name="Belépés" value="Belépés" />
+						<a href=""> Regisztráció </a>
 					</td>
 				</tr>
 			</table>

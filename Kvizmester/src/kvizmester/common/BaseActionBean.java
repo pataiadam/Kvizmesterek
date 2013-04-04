@@ -1,7 +1,10 @@
 package kvizmester.common;
 
+import kvizmester.action.LoginActionBean;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
 
 public abstract class BaseActionBean implements ActionBean {
 	private BaseActionBeanContext actionBeanContext;
