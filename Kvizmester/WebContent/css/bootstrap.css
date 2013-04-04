@@ -119,7 +119,7 @@ body {
 	background-color: #ffffff;
 }
 a {
-	color: #2D2D2D;
+	color: #ffffff;
 	text-decoration: none;
 }
 a:hover {
@@ -131,6 +131,12 @@ a:hover {
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 }
+
+input.error, textarea.error {
+    color: red;
+    background-color: yellow;
+}
+
 .img-polaroid {
 	padding: 4px;
 	background-color: #fff;

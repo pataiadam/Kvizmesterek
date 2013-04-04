@@ -8,6 +8,8 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.LocalizableError;
+import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
@@ -22,13 +24,13 @@ public class LoginActionBean extends BaseActionBean {
 	/**
 	 * The username.
 	 */
-	@Validate(field = "username", required = true)
+	@Validate(required = true)
 	private String username;
 
 	/**
 	 * The password.
 	 */
-	@Validate(field = "password", required = true)
+	@Validate(required = true)
 	private String password;
 
 	/**
@@ -80,23 +82,8 @@ public class LoginActionBean extends BaseActionBean {
 		if (getContext().getUser() != null) {
 			return new RedirectResolution(HomeActionBean.class);
 		}
+		getContext().getValidationErrors().addGlobalError(
+                new SimpleError("Hibás belépési adatok!") );
 		return new ForwardResolution(VIEW);
-	}
-
-	/**
-	 * Validation method that checks the username and password against validity.
-	 * 
-	 * @param errors
-	 *            validation errors.
-	 * @throws InstanceException
-	 *             InstanceException
-	 * @throws ModelException
-	 *             ModelException
-	 */
-	@ValidationMethod
-	public void validateUser(final ValidationErrors errors) {
-
-		getContext().setUser(username);
-		getContext().setRole(Role.LOGGED_IN_USER);
 	}
 }

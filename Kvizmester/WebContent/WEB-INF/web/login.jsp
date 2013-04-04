@@ -9,7 +9,7 @@
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
 		<s:form beanclass="kvizmester.action.LoginActionBean"  >
-			<s:errors />
+			
 			
 			<table align="center">
 				<tr>
@@ -18,8 +18,6 @@
 					</td>
 					<td>
 						<s:text id="username" name="username" />
-						<s:errors field="username"/>
-						
 					</td>
 				</tr>
 				<tr>
@@ -28,6 +26,7 @@
 					</td>
 					<td>
 						<s:password id="password" name="password" />
+						
 					</td>
 				</tr>
 				<tr>
@@ -38,6 +37,7 @@
 					</td>
 				</tr>
 			</table>
+			<s:errors />
 		</s:form>
 	</s:layout-component>
 </s:layout-render>
