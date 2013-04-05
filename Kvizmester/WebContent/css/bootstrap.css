@@ -137,6 +137,10 @@ input.error, textarea.error {
     background-color: yellow;
 }
 
+div.errorHeader ul li {
+	color: #ff0000;
+}
+
 .img-polaroid {
 	padding: 4px;
 	background-color: #fff;

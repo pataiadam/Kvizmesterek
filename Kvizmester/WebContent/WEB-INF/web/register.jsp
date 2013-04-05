@@ -6,16 +6,14 @@
 
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
-<s:url beanclass="kvizmester.action.RegisterActionBean" var="registerURL"/>
-
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
-		<s:form beanclass="kvizmester.action.LoginActionBean">
+		<s:form beanclass="kvizmester.action.RegisterActionBean">
 			
 			
 			<table align="center">
 				<tr>
-					<td colspan="2"><h2>Bejelentkezés</h2></td>
+					<td colspan="2"><h2>Regisztráció</h2></td>
 				</tr>
 				<tr>
 					<td>
@@ -36,10 +34,26 @@
 					</td>
 				</tr>
 				<tr>
-					<td></td>
 					<td>
-						<s:submit name="Belépés" value="Belépés" />
-						<a href="${registerURL}"> Regisztráció </a>
+						<s:label name="label.passwordAgain" for="password2"/>
+					</td>
+					<td>
+						<s:password id="password2" name="password2"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<s:label name="label.birthdate" for="password"/>
+					</td>
+					<td>
+						<s:password id="password" name="password" />
+						
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<s:submit name="Regisztráció" value="Regisztráció" />
+
 						<s:errors />
 					</td>
 				</tr>

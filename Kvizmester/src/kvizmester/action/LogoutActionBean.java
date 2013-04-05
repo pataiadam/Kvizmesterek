@@ -7,10 +7,11 @@ import kvizmester.common.BaseActionBean;
 
 public class LogoutActionBean extends BaseActionBean {
 	
+	private static final String VIEW = "/index.jsp";
+	
 	@DefaultHandler
 	public Resolution logout() {
-		System.out.println("logout");
 		getContext().setUser(null);
-		return new ForwardResolution(LoginActionBean.VIEW);
+		return new ForwardResolution(VIEW);
 	}
 }

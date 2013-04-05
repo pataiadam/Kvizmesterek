@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import kvizmester.action.LoginActionBean;
+import kvizmester.action.RegisterActionBean;
 import kvizmester.common.BaseActionBean;
 import kvizmester.common.BaseActionBeanContext;
 import kvizmester.test.Test;
@@ -60,6 +61,7 @@ public class LoginInterceptor implements Interceptor {
 				new HashSet<Class<? extends BaseActionBean>>());
 
 		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(LoginActionBean.class);
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).add(RegisterActionBean.class);
 	}
 
 	/**
