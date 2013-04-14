@@ -1,6 +1,5 @@
 package kvizmester.beans;
 
-import java.util.Random;
 
 public class Room {
 	private String roomName;

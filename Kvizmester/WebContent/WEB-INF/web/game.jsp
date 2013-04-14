@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
-<s:url beanclass="kvizmester.action.GameActionBean" var="gameURL"/>
+<s:url beanclass="kvizmester.action.GameActionBean" var="gameURL" />
 <script src="js/jquery.js" type="text/javascript"></script>
 
 
@@ -22,16 +22,14 @@
 		$('input[type=text]').keyup(function() {
 			invoke($('form')[0], 'ajax', '#replaceWithAjax');
 		});
-	});--%>
-	
+	});
 	$(function() {
 		$('.roomConnect').click(function() {
 			$.post('${gameURL}', 'joinToRoom', function(xml) {
 				alert(1);
 			});
 		});
-	});
-	
+	});--%>
 	$(document).ready(function() {
 		$("#createRoomBtn").click(function() {
 			$("#gameButtons").fadeOut('slow', function() {
@@ -63,9 +61,14 @@
 									<div class="Room">
 										<div class="roomName">${room.roomName}</div>
 										<div class="roomPlayerName">${room.playerName}</div>
-										<div id="${room.roomName}" class="roomConnect"><img src="img/playButton.png" width="20px" alt="Logo"></div>
+										<div id="${room.roomName}" class="roomConnect">
+											<s:link beanclass="kvizmester.action.MainGameActionBean">
+												<s:param name="roomName" value="${room.roomName}" />
+												<img src="img/playButton.png" width="20px" alt="Logo">
+											</s:link>
+										</div>
 									</div>
-								</c:forEach>
+								</c:forEach> 
 							</div>
 						</td>
 						<!-- Játékba lépés, szoba létrehozása

@@ -16,30 +16,25 @@ public class GameActionBean extends BaseActionBean {
 	
 	private static final String VIEW = "/WEB-INF/web/game.jsp";
 	private String text;
+	private String me = "EnvagyokASzobaLetrehozoja";
 	private String player;
 	private static ArrayList<Room> rooms = new ArrayList<>();
-	private static Map<Room, Game> games = new HashMap<>();
+	private static Map<String, Game> games = new HashMap<>();
 	
 	static{
-		rooms.add(new Room("Szoba1", "higate"));
-		rooms.add(new Room("QuizRoom", "kacsa123"));
 	}
 	
 	@DefaultHandler
 	public Resolution game() {
 		return new ForwardResolution(VIEW);
 	}
-	
-    public Resolution joinToRoom() {
-    	System.out.println("heyyyyhoooo");
-        return new RedirectResolution(MainGameActionBean.class);
-    }
 
     public Resolution submit() {
     	Room tmpR = new Room(text, player);
-    	Game tmpG = new Game("asdfg");
+    	Game tmpG = new Game(player);
+    	tmpG.setPlayer2(me);
     	rooms.add(tmpR);
-    	games.put(tmpR, tmpG);
+    	games.put(text, tmpG);
         return new RedirectResolution(GameActionBean.class);
     }
 
@@ -62,9 +57,14 @@ public class GameActionBean extends BaseActionBean {
 	public ArrayList<Room> getRooms() {
 		return rooms;
 	}
+	
+	public static ArrayList<Room> getStaticRooms() {
+		return rooms;
+	}
 
-	public static Map<Room, Game> getGames() {
+	public static Map<String, Game> getGames() {
 		return games;
 	}
+
 
 }
