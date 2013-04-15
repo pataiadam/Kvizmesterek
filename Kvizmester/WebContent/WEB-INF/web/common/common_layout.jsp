@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
+<s:url beanclass="kvizmester.action.HomeActionBean" var="homeURL"/>
 <s:url beanclass="kvizmester.action.LogoutActionBean" var="logoutURL" event="logout"/>
 <s:url beanclass="kvizmester.action.DummyForumActionBean" var="ForumURL" />
 
@@ -18,6 +19,7 @@
 			<link href="css/bootstrap.css" rel="stylesheet">
 			<link href="css/bootstrap-responsive.css" rel="stylesheet">
 			<link href="css/docs.css" rel="stylesheet">
+			<link href="css/game/game.css" rel="stylesheet">
   		</head>
 		
 		<body>
@@ -33,7 +35,7 @@
 		          <div id="main-nav">
 		            <div class="nav-collapse collapse">
 		              <ul class="nav">
-		                <li class="active"><a href="">Kezdőlap</a> </li>
+		                <li><a href="${homeURL}">Kezdőlap</a> </li>
 		                <li><a href=""> Statisztika </a></li>
 		                <li><a href=""> Ranglista </a></li>
 		                <li><a href="${ForumURL}"> Fórum </a></li>

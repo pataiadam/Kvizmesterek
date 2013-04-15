@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(description = "Test Servlet", urlPatterns = { "/test" })
 public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static final String String = null;
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -49,9 +50,26 @@ public class Test extends HttpServlet {
 		Connection connection = null;
 
 		try {
+			
+			/**------------------------------------------------------------**/
+			String serverName = "localhost"; 
+			String portNumber = "1521";
+			String sid = "xe";
+			String url="jdbc:oracle:thin:@"+serverName+":"+ portNumber+":"+sid; 
+			String user = "norbertozeke";
+			String pass = "aA914666"; 
+			/**------------------------------------------------------------**/
+			
+			
+			
 
-			connection = DriverManager.getConnection(
-					"jdbc:oracle:thin:@10.110.10.1:1521:xe", "SYSTEM", "admin");
+			/*connection = DriverManager.getConnection(
+					"jdbc:oracle:thin:@10.110.10.1:1521:xe", "SYSTEM", "admin");*/
+			connection = DriverManager.getConnection(url, user, pass);
+					
+					
+					
+					
 
 		} catch (SQLException e) {
 

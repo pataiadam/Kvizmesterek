@@ -2,12 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
-
+<s:url beanclass="kvizmester.action.GameActionBean" var="gameURL" />
 <script src="js/jquery.js" type="text/javascript"></script>
 
 
 <script type="text/javascript" xml:space="preserve">
-	function invoke(form, event, container) {
+	
+<%--function invoke(form, event, container) {
 
 		params = {};
 		if (event != null)
@@ -19,13 +20,17 @@
 
 	$(function() {
 		$('input[type=text]').keyup(function() {
-
 			invoke($('form')[0], 'ajax', '#replaceWithAjax');
 		});
 	});
-
+	$(function() {
+		$('.roomConnect').click(function() {
+			$.post('${gameURL}', 'joinToRoom', function(xml) {
+				alert(1);
+			});
+		});
+	});--%>
 	$(document).ready(function() {
-
 		$("#createRoomBtn").click(function() {
 			$("#gameButtons").fadeOut('slow', function() {
 				$("#createRoomDiv").show();
@@ -50,8 +55,21 @@
 					<tr background="img/backgroung-game2.jpg" style="opacity: 0.95;">
 						<!-- Létrehozott szobák
 					================================================== -->
-						<td id="joinToRoom" height="600px">
-							<div id="replaceWithAjax"></div>
+						<td id="joinToRoom" style="vertical-align: top;" height="600px">
+							<div>
+								<c:forEach items="${actionBean.rooms}" var="room">
+									<div class="Room">
+										<div class="roomName">${room.roomName}</div>
+										<div class="roomPlayerName">${room.playerName}</div>
+										<div id="${room.roomName}" class="roomConnect">
+											<s:link beanclass="kvizmester.action.MainGameActionBean">
+												<s:param name="roomName" value="${room.roomName}" />
+												<img src="img/playButton.png" width="20px" alt="Logo">
+											</s:link>
+										</div>
+									</div>
+								</c:forEach> 
+							</div>
 						</td>
 						<!-- Játékba lépés, szoba létrehozása
 					================================================== -->
@@ -68,7 +86,9 @@
 								<br> <br>
 								<s:form beanclass="kvizmester.action.GameActionBean">
 									<s:text name="text" />
-									<div>Írja be a szoba nevét. A gomb még nem megy :D</div>
+									<div>Írja be a szoba nevét!</div>
+									<s:text name="player" />
+									<div>Írja be a játékos nevét, akivel játszani szeretne!</div>
 									<s:submit name="submit" />
 								</s:form>
 							</div>
@@ -80,25 +100,3 @@
 
 	</s:layout-component>
 </s:layout-render>
-
-
-<%-- 
-
-								<s:form beanclass="kvizmester.action.GameActionBean">
-									<table align="center">
-										<tr>
-											<td><s:label name="Szoba neve" for="username" /></td>
-											<td><s:text id="username" name="username" /></td>
-										</tr>
-										<tr>
-											<td><s:label name="Kis gecinek a neve" for="password" /></td>
-											<td><s:password id="password" name="password" /></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td><s:submit name="Létrehozás" value="Létrehozás" /></td>
-										</tr>
-									</table>
-									<s:errors />
-								</s:form>
-								--%>
