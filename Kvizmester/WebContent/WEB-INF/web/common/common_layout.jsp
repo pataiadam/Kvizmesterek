@@ -8,7 +8,7 @@
 <s:url beanclass="kvizmester.action.ModifyRegActionBean" var="modifyURL"/>
 <s:url beanclass="kvizmester.action.HomeActionBean" var="homeURL"/>
 <s:url beanclass="kvizmester.action.UsersActionBean" var="usersURL"/>
-
+<s:url beanclass="kvizmester.action.DummyForumActionBean" var="ForumURL" />
 
 <s:layout-definition>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -28,6 +28,8 @@
 			<link href="css/bootstrap-responsive.css" rel="stylesheet">
 			<link href="css/docs.css" rel="stylesheet">
 			<link href="css/tables.css" rel="stylesheet">
+			<link href="css/game/game.css" rel="stylesheet">
+			
   		</head>
 		
 		<body>
@@ -68,7 +70,7 @@
 		                <li><a href="${modifyURL }"> Adatmódosítás </a></li>
 		                <li><a href=""> Statisztika </a></li>
 		                <li><a href=""> Ranglista </a></li>
-		                <li><a href=""> Fórum </a></li>
+		                <li><a href="${ForumURL}"> Fórum </a></li>
 		                <li><a href=""> Verseny </a></li>
 		                <li><a href="${logoutURL}"> Kijelentkezés </a> </li>
 		              </ul>
