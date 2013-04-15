@@ -60,11 +60,12 @@
 								<c:forEach items="${actionBean.rooms}" var="room">
 									<div class="Room">
 										<div class="roomName">${room.roomName}</div>
-										<div class="roomPlayerName">${room.playerName}</div>
+										<div class="roomPlayerName">${room.playerName} és ${room.createrName}</div>
 										<div id="${room.roomName}" class="roomConnect">
 											<s:link beanclass="kvizmester.action.MainGameActionBean">
 												<s:param name="roomName" value="${room.roomName}" />
-												<img src="img/playButton.png" width="20px" alt="Logo">
+												<s:param name="me" value="${actionBean.user.username}" />
+												<img src="img/playButton.png" width="20px">
 											</s:link>
 										</div>
 									</div>
@@ -89,6 +90,7 @@
 									<div>Írja be a szoba nevét!</div>
 									<s:text name="player" />
 									<div>Írja be a játékos nevét, akivel játszani szeretne!</div>
+									<s:param name="myName" value="${actionBean.user.username}" />
 									<s:submit name="submit" />
 								</s:form>
 							</div>

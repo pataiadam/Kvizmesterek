@@ -4,30 +4,33 @@ import kvizmester.beans.Game;
 import kvizmester.common.BaseActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.ajax.JavaScriptResolution;
 
 public class MainGameActionBean extends BaseActionBean {
 
 	private static final String VIEW = "/WEB-INF/web/mainGame.jsp";
-	private String player1;
+	private String me;
 	private String roomName;
 	private Game game;
 
 	@DefaultHandler
 	public Resolution mainGame() {
-		
-		this.game=GameActionBean.getGames().get(roomName);
-		GameActionBean.getGames().get(roomName).setTmp(GameActionBean.getGames().get(roomName).getTmp()+1);
-		
-		return new ForwardResolution(VIEW);
+		Game tmp= GameActionBean.getGames().get(roomName);
+		if (me.equals(tmp.getPlayer1()) || me.equals(tmp.getPlayer2())) {
+			this.game = GameActionBean.getGames().get(roomName);
+			return new ForwardResolution(VIEW);
+		}
+		return new RedirectResolution(GameActionBean.class);
 	}
 
-	public String getPlayer1() {
-		return player1;
+	public String getMe() {
+		return me;
 	}
 
-	public void setPlayer1(String player1) {
-		this.player1 = player1;
+	public void setMe(String me) {
+		this.me = me;
 	}
 
 	public String getRoomName() {

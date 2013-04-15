@@ -50,7 +50,7 @@
 						<a class="brand"> <img src="img/logo.png" width="90px"
 							alt="Logo"></a>
 						<c:if test="${actionBean.role == 'USER'}">
-							<a class="logonBox"> ${actionBean.user.username}</a>
+							<div class="logonBox"> ${actionBean.user.username}</div>
 						</c:if>
 						<div id="main-nav">
 							<div class="nav-collapse collapse">

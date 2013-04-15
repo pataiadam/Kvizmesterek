@@ -16,7 +16,7 @@ public class GameActionBean extends BaseActionBean {
 	
 	private static final String VIEW = "/WEB-INF/web/game.jsp";
 	private String text;
-	private String me = "EnvagyokASzobaLetrehozoja";
+	private String myName = "EnvagyokASzobaLetrehozoja";
 	private String player;
 	private static ArrayList<Room> rooms = new ArrayList<>();
 	private static Map<String, Game> games = new HashMap<>();
@@ -31,8 +31,9 @@ public class GameActionBean extends BaseActionBean {
 
     public Resolution submit() {
     	Room tmpR = new Room(text, player);
+    	tmpR.setCreaterName(myName);
     	Game tmpG = new Game(player);
-    	tmpG.setPlayer2(me);
+    	tmpG.setPlayer2(myName);
     	rooms.add(tmpR);
     	games.put(text, tmpG);
         return new RedirectResolution(GameActionBean.class);
@@ -64,6 +65,14 @@ public class GameActionBean extends BaseActionBean {
 
 	public static Map<String, Game> getGames() {
 		return games;
+	}
+
+	public String getMyName() {
+		return myName;
+	}
+
+	public void setMyName(String myName) {
+		this.myName = myName;
 	}
 
 
