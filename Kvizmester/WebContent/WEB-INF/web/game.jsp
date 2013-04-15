@@ -3,9 +3,6 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
 
-<script src="js/jquery.js" type="text/javascript"></script>
-
-
 <script type="text/javascript" xml:space="preserve">
 	function invoke(form, event, container) {
 

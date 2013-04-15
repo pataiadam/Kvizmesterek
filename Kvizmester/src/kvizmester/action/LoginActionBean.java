@@ -1,5 +1,6 @@
 package kvizmester.action;
 
+import kvizmester.beans.User;
 import kvizmester.common.BaseActionBean;
 import kvizmester.test.Test;
 import kvizmester.utils.Role;
@@ -85,8 +86,8 @@ public class LoginActionBean extends BaseActionBean {
 		
 
 		if (test.validateUser(username, password)) {
-			getContext().setUser(username);
-			getContext().setRole(Role.LOGGED_IN_USER);
+			User user = test.getUserByUsername(username);
+			getContext().setUser(user);
 			return new RedirectResolution(HomeActionBean.class);
 		}
 		if (getContext().getUser() != null) {
