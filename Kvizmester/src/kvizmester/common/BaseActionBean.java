@@ -1,11 +1,9 @@
 package kvizmester.common;
 
-import kvizmester.action.LoginActionBean;
+import kvizmester.beans.User;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
 
 public abstract class BaseActionBean implements ActionBean {
 	private BaseActionBeanContext actionBeanContext;
@@ -29,5 +27,9 @@ public abstract class BaseActionBean implements ActionBean {
 	
 	public Role getRole() {
 		return getContext().getRole();
+	}
+	
+	public User getUser() {
+		return getContext().getUser();
 	}
 }
