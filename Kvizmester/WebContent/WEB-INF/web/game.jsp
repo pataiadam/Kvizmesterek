@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
 <s:url beanclass="kvizmester.action.GameActionBean" var="gameURL" />
-<script src="js/jquery.js" type="text/javascript"></script>
 
-
-<script type="text/javascript" xml:space="preserve">
-	
-<%--function invoke(form, event, container) {
+<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
+	<s:layout-component name="body">
+		<script type="text/javascript">
+			
+		<%--function invoke(form, event, container) {
 
 		params = {};
 		if (event != null)
@@ -30,18 +30,18 @@
 			});
 		});
 	});--%>
-	$(document).ready(function() {
-		$("#createRoomBtn").click(function() {
-			$("#gameButtons").fadeOut('slow', function() {
-				$("#createRoomDiv").show();
+			$(document).ready(function() {
+
+				$("#createRoomBtn").click(function() {
+					$("#gameButtons").fadeOut('slow', function() {
+						$("#createRoomDiv").show();
+					});
+
+				});
 			});
+		</script>
 
-		});
-	});
-</script>
 
-<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
-	<s:layout-component name="body">
 
 		<div class="container gameRoom">
 			<table width="100%" border="2">
@@ -68,7 +68,7 @@
 											</s:link>
 										</div>
 									</div>
-								</c:forEach> 
+								</c:forEach>
 							</div>
 						</td>
 						<!-- Játékba lépés, szoba létrehozása

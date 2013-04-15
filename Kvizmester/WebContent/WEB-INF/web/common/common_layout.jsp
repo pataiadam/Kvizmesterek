@@ -20,8 +20,8 @@
 			<meta name="description" content="">
 			<meta name="author" content="">
 			
-			<script type="text/javascript" src="${contextPath}/js/jquery-1.7.1.js"></script>
-			<script type="text/javascript" src="${contextPath}/js/DataTables/media/js/jquery.dataTables.js"></script>
+			<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="js/DataTables/media/js/jquery.dataTables.js"></script>
 			
 			<!-- Le styles -->
 			<link href="css/bootstrap.css" rel="stylesheet">
@@ -128,7 +128,7 @@
 			<!-- Le javascript
 			    ================================================== --> 
 			<!-- Placed at the end of the document so the pages load faster --> 
-			<script src="js/jquery.js" type="text/javascript"></script> 
+			
 			
 			<script type="text/javascript">
 			        $(document).ready(function () {
