@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
 <s:url beanclass="kvizmester.action.LogoutActionBean" var="logoutURL" event="logout"/>
+<s:url beanclass="kvizmester.action.DummyForumActionBean" var="ForumURL" />
 
 <s:layout-definition>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -35,7 +36,7 @@
 		                <li class="active"><a href="">Kezdőlap</a> </li>
 		                <li><a href=""> Statisztika </a></li>
 		                <li><a href=""> Ranglista </a></li>
-		                <li><a href=""> Fórum </a></li>
+		                <li><a href="${ForumURL}"> Fórum </a></li>
 		                <li><a href=""> Verseny </a></li>
 		                <li><a href="${logoutURL}"> Kijelentkezés </a> </li>
 		              </ul>
