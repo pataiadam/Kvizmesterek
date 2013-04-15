@@ -39,8 +39,8 @@
 					<td></td>
 					<td>
 						<s:submit name="Belépés" value="Belépés" />
-						<a href="${registerURL}"> Regisztráció </a>
 						<s:errors />
+						<s:messages />
 					</td>
 				</tr>
 			</table>		

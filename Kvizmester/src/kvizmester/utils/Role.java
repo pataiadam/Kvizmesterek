@@ -4,7 +4,7 @@ public enum Role {
 
 	ADMIN,
 
-	LOGGED_IN_USER,
+	USER,
 
 	VISITOR
 }

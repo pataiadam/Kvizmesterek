@@ -1,6 +1,7 @@
 package kvizmester.common;
 
 import kvizmester.action.LoginActionBean;
+import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -24,5 +25,9 @@ public abstract class BaseActionBean implements ActionBean {
 	@Override
 	public void setContext(ActionBeanContext actionBeanContext) {
 		this.actionBeanContext = (BaseActionBeanContext) actionBeanContext;
+	}
+	
+	public Role getRole() {
+		return getContext().getRole();
 	}
 }

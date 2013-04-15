@@ -40,10 +40,10 @@ public class LoginInterceptor implements Interceptor {
 		/**
 		 * logged in user
 		 */
-		ALLOWED_ACTION_CLASSES_MAP.put(Role.LOGGED_IN_USER,
+		ALLOWED_ACTION_CLASSES_MAP.put(Role.USER,
 				new HashSet<Class<? extends BaseActionBean>>());
 
-		ALLOWED_ACTION_CLASSES_MAP.get(Role.LOGGED_IN_USER).add(
+		ALLOWED_ACTION_CLASSES_MAP.get(Role.USER).add(
 				LoginActionBean.class);
 
 		/**

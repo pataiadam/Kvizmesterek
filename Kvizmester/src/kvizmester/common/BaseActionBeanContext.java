@@ -2,6 +2,7 @@ package kvizmester.common;
 
 import javax.servlet.http.HttpSession;
 
+import kvizmester.beans.User;
 import kvizmester.utils.Constants;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -64,19 +65,14 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	/**
 	 * The role of the logged in user
 	 * 
-	 * @param role
-	 */
-	public void setRole(final Role role) {
-		addToSession(Constants.ROLE_NAME, role);
-	}
-
-	/**
-	 * The role of the logged in user
-	 * 
 	 * @return
 	 */
 	public Role getRole() {
-		return readFromSession(Constants.ROLE_NAME);
+		User user = getUser();
+		if(user == null) {
+			return Role.VISITOR;
+		}
+		return getUser().getRole();
 	}
 
 	/**
@@ -85,8 +81,8 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	 * @param userName
 	 *            userName
 	 */
-	public void setUser(final String userName) {
-		addToSession(Constants.USER_NAME, userName);
+	public void setUser(final User user) {
+		addToSession(Constants.USER_NAME, user);
 	}
 
 	/**
@@ -94,7 +90,7 @@ public class BaseActionBeanContext extends ActionBeanContext {
 	 * 
 	 * @return the user.
 	 */
-	public String getUser() {
+	public User getUser() {
 		return readFromSession(Constants.USER_NAME);
 	}
 

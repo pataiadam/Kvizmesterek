@@ -1,28 +1,26 @@
 package kvizmester.action;
 
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import kvizmester.beans.User;
-import kvizmester.common.BaseActionBean;
-import kvizmester.common.EmailValidator;
-import kvizmester.test.Test;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.SimpleError;
+import kvizmester.beans.User;
+import kvizmester.common.BaseActionBean;
+import kvizmester.common.EmailValidator;
+import kvizmester.test.Test;
 
-public class RegisterActionBean extends BaseActionBean {
+public class ModifyRegActionBean extends BaseActionBean {
 	/**
 	 * Main view
 	 */
-	public static final String VIEW = "/WEB-INF/web/register.jsp";
-	
-	public static final String LOGIN_VIEW = "/WEB-INF/web/login.jsp";
+	public static final String VIEW = "/WEB-INF/web/modifyReg.jsp";
 	
 	private String username;
+	
+	private String oldpassword;
 	
 	private String password;
 	
@@ -32,47 +30,60 @@ public class RegisterActionBean extends BaseActionBean {
 	
 	private String email;
 	
+	private int id;
+	
 	@DefaultHandler
 	public Resolution view() {
-		if(username != null || password != null || password2 != null || birthdate != null) {
-			return register();
+		User user = getContext().getUser();
+		username = user.getUsername();
+		if(oldpassword != null || password != null || password2 != null || birthdate != null || email != null) {
+			return modifyReg();
 		}
+
+		birthdate = user.getBirthdate();
+		email = user.getEmail();
+		id = user.getId();
+		
 		return new ForwardResolution(VIEW);
 	}
 	
-	public Resolution register() {
+	public Resolution modifyReg() {
 		int hiba = 0;
 		
-		if(username == null || birthdate == null || email == null || username.equals("") || birthdate.equals("") || email.equals("")) {
+		if(birthdate == null || email == null || birthdate.equals("") || email.equals("")) {
 			getContext().getValidationErrors().addGlobalError(
-	                new SimpleError("Minden mező megadása kötelező!") );
+	                new SimpleError("Minden mező megadása kötelező (új jelszót nem kell megadni, ha nem akarja megváltoztatni)!") );
 			hiba++;
 		}
 		
-		if(password == null || password2 == null || password.length() < 8 ) {
+		if((password != null || password2 != null) && password.length() < 8 ) {
 			getContext().getValidationErrors().addGlobalError(
-	                new SimpleError("A jelszó legalább 8 karakter kell, hogy legyen!") );
+	                new SimpleError("Az új jelszó legalább 8 karakter kell, hogy legyen!") );
 			hiba++;
 		}
-		else if(password == null || password2 == null || !(password.equals(password2))) {
+		else if((password != null || password2 != null) && !(password.equals(password2))) {
 			getContext().getValidationErrors().addGlobalError(
-	                new SimpleError("A két jelszó nem egyezik meg!") );
+	                new SimpleError("A két új jelszó nem egyezik meg!") );
 			hiba++;
 		}
+		
+		
 		
 		Test test = new Test();
 		
-		User user = test.getUserByUsername(username);
-		
-		if(user != null) {
+		boolean validate = test.validateUser(username, oldpassword);
+		if(! validate) {
 			hiba++;
 			getContext().getValidationErrors().addGlobalError(
-	                new SimpleError("Foglalt felhasználónév!") );
+	                new SimpleError("Hibásan adta meg a jelenlegi jelszót!") );
 		}
 		
+		if(hiba == 0 && password != null && password2 != null) {
+			oldpassword = password;
+		}
 		
 		if(hiba == 0) {
-			boolean success = test.registerNewUser(username, password, email, birthdate);
+			boolean success = test.modifyUser(id, email, birthdate, oldpassword);
 			if(! success) {
 				hiba++;
 				getContext().getValidationErrors().addGlobalError(
@@ -90,9 +101,12 @@ public class RegisterActionBean extends BaseActionBean {
 		}
 		
 		if(hiba == 0) {
-			getContext().getMessages().add(new LocalizableMessage("register.successful"));
+			getContext().getMessages().add(new LocalizableMessage("modify.successful"));
+			User user = new User(getContext().getUser().getRole(), id, username, email, birthdate, getContext().getUser().getScore());
+			getContext().setUser(user);
 		}
-		return new ForwardResolution(LOGIN_VIEW);
+		
+		return new ForwardResolution(VIEW);
 	}
 
 	public String getUsername() {
@@ -101,6 +115,14 @@ public class RegisterActionBean extends BaseActionBean {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getOldpassword() {
+		return oldpassword;
+	}
+
+	public void setOldpassword(String oldpassword) {
+		this.oldpassword = oldpassword;
 	}
 
 	public String getPassword() {
@@ -134,7 +156,7 @@ public class RegisterActionBean extends BaseActionBean {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	
 	
 }
