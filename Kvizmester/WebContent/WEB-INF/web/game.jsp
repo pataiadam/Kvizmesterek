@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/web/common/taglibs.jsp"%>
 
 <s:url beanclass="kvizmester.action.GameActionBean" var="gameURL" />
-<script src="js/jquery.js" type="text/javascript"></script>
 
-
-<script type="text/javascript" xml:space="preserve">
-	
-<%--function invoke(form, event, container) {
+<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
+	<s:layout-component name="body">
+		<script type="text/javascript">
+			
+		<%--function invoke(form, event, container) {
 
 		params = {};
 		if (event != null)
@@ -30,18 +30,18 @@
 			});
 		});
 	});--%>
-	$(document).ready(function() {
-		$("#createRoomBtn").click(function() {
-			$("#gameButtons").fadeOut('slow', function() {
-				$("#createRoomDiv").show();
+			$(document).ready(function() {
+
+				$("#createRoomBtn").click(function() {
+					$("#gameButtons").fadeOut('slow', function() {
+						$("#createRoomDiv").show();
+					});
+
+				});
 			});
+		</script>
 
-		});
-	});
-</script>
 
-<s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
-	<s:layout-component name="body">
 
 		<div class="container gameRoom">
 			<table width="100%" border="2">
@@ -60,15 +60,16 @@
 								<c:forEach items="${actionBean.rooms}" var="room">
 									<div class="Room">
 										<div class="roomName">${room.roomName}</div>
-										<div class="roomPlayerName">${room.playerName}</div>
+										<div class="roomPlayerName">${room.playerName} és ${room.createrName}</div>
 										<div id="${room.roomName}" class="roomConnect">
 											<s:link beanclass="kvizmester.action.MainGameActionBean">
 												<s:param name="roomName" value="${room.roomName}" />
-												<img src="img/playButton.png" width="20px" alt="Logo">
+												<s:param name="me" value="${actionBean.user.username}" />
+												<img src="img/playButton.png" width="20px">
 											</s:link>
 										</div>
 									</div>
-								</c:forEach> 
+								</c:forEach>
 							</div>
 						</td>
 						<!-- Játékba lépés, szoba létrehozása
@@ -89,6 +90,7 @@
 									<div>Írja be a szoba nevét!</div>
 									<s:text name="player" />
 									<div>Írja be a játékos nevét, akivel játszani szeretne!</div>
+									<s:param name="myName" value="${actionBean.user.username}" />
 									<s:submit name="submit" />
 								</s:form>
 							</div>

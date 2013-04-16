@@ -58,12 +58,12 @@ public class Test extends HttpServlet {
 		try {
 			
 			/**------------------------------------------------------------**/
-			String serverName = "localhost"; 
+			String serverName = "10.110.10.1"; 
 			String portNumber = "1521";
 			String sid = "xe";
 			String url="jdbc:oracle:thin:@"+serverName+":"+ portNumber+":"+sid; 
-			String user = "norbertozeke";
-			String pass = "aA914666"; 
+			String user = "SYSTEM";
+			String pass = "admin"; 
 			/**------------------------------------------------------------**/
 			
 			
