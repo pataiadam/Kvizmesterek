@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kvizmester.beans.Category;
+import kvizmester.beans.Question;
 import kvizmester.beans.User;
 import kvizmester.utils.Role;
 
@@ -27,15 +29,30 @@ public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String String = null;
 	
+	private Connection connection = null;
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Test() {
+	public Test() {	
 		super();
+		try {
+			connection = this.connect();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Auto-generated constructor stub
 	}
 
 	public Connection connect() throws ServletException, IOException {
+		
+		if(connection != null) {
+			return connection;
+		}
 
 		System.out.println("-------- Oracle JDBC Connection Testing ------");
 
@@ -53,7 +70,7 @@ public class Test extends HttpServlet {
 
 		System.out.println("Oracle JDBC Driver Registered!");
 
-		Connection connection = null;
+		connection = null;
 
 		try {
 			
@@ -96,16 +113,16 @@ public class Test extends HttpServlet {
 	
 	public boolean validateUser(String username, String password) {
 		
-		Connection connection = null;
-		
-		try {
-			connection = this.connect();
-		} catch (ServletException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		PreparedStatement preparedStatement = null;
@@ -141,18 +158,10 @@ public class Test extends HttpServlet {
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					
-					e.printStackTrace();
-				}
-			}
- 
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -162,19 +171,20 @@ public class Test extends HttpServlet {
 	}
 	
 	public User getUserByUsername(String username) {
-		User user = null;
 		
-		Connection connection = null;
-		
-		try {
-			connection = this.connect();
-		} catch (ServletException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		User user = null;
 		
 		PreparedStatement preparedStatement = null;
 		 
@@ -223,18 +233,10 @@ public class Test extends HttpServlet {
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					
-					e.printStackTrace();
-				}
-			}
- 
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -245,16 +247,16 @@ public class Test extends HttpServlet {
 	
 	public boolean registerNewUser(String username, String password, String email, Date birthdate) {
 		
-		Connection connection = null;
-		
-		try {
-			connection = this.connect();
-		} catch (ServletException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		PreparedStatement preparedStatement = null;
@@ -302,18 +304,10 @@ public class Test extends HttpServlet {
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					
-					e.printStackTrace();
-				}
-			}
- 
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -323,16 +317,17 @@ public class Test extends HttpServlet {
 	}
 	
 	public boolean modifyUser(int id, String email, Date birthdate, String password) {
-Connection connection = null;
 		
-		try {
-			connection = this.connect();
-		} catch (ServletException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		PreparedStatement preparedStatement = null;
@@ -363,18 +358,10 @@ Connection connection = null;
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					
-					e.printStackTrace();
-				}
-			}
- 
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -384,19 +371,20 @@ Connection connection = null;
 	}
 	
 	public List<User> getAllUsers() {
-		List<User> users = new ArrayList<User>();
 		
-		Connection connection = null;
-		
-		try {
-			connection = this.connect();
-		} catch (ServletException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		List<User> users = new ArrayList<User>();
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -438,18 +426,10 @@ Connection connection = null;
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					
-					e.printStackTrace();
-				}
-			}
- 
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -457,6 +437,265 @@ Connection connection = null;
 		
 		return users;
 	}
+	
+	
+	public boolean uploadCategory(String categoryName) {
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String insert = "INSERT INTO kategoria VALUES(?, ?)";
+		
+		int max = 0;
+		
+		String maxId = "SELECT max(kategoria_id) FROM kategoria";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(maxId);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				max = rs.getInt("max(kategoria_id)");
+			}
+			
+			preparedStatement = connection.prepareStatement(insert);
+			preparedStatement.setInt(1, (max + 1));
+			preparedStatement.setString(2, categoryName);
+ 
+			// execute select SQL stetement
+			rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean uploadQuestion(int categoryId, String question, String answer, String answer1, String answer2, String answer3, int level) {
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String insert = "INSERT INTO kerdes VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		int max = 0;
+		
+		String maxId = "SELECT max(kerdes_id) FROM kerdes";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(maxId);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				max = rs.getInt("max(kerdes_id)");
+			}
+			
+			preparedStatement = connection.prepareStatement(insert);
+			preparedStatement.setInt(1, (max + 1));
+			preparedStatement.setInt(2, categoryId);
+			preparedStatement.setString(3,  question);
+			preparedStatement.setString(4,  answer);
+			preparedStatement.setInt(5, level);
+			preparedStatement.setInt(6, 0);
+			preparedStatement.setInt(7, 0);
+			preparedStatement.setString(8, answer1);
+			preparedStatement.setString(9, answer2);
+			preparedStatement.setString(10, answer3);
+			
+ 
+			// execute select SQL stetement
+			rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public List<Category> getAllCategory() {
+		List<Category> categoryList = new ArrayList<Category>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String maxId = "SELECT * FROM kategoria";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(maxId);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				int id = rs.getInt("kategoria_id");
+				String nev = rs.getString("nev");
+				
+				Category category = new Category(id, nev);
+				
+				categoryList.add(category);
+			}
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return categoryList;
+	}
+	
+	public List<Question> getAllQuestionsFromCategory(int categoryId) {
+		List<Question> questionList = new ArrayList<Question>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String maxId = "SELECT * FROM kerdes WHERE kategoria_id=?";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(maxId);
+			preparedStatement.setInt(1, categoryId);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				int id = rs.getInt("kategoria_id");
+				String question = rs.getString("kerdes_szovege");
+				String answer = rs.getString("helyes_valasz");
+				String wrongAnswer1 = rs.getString("valasz1");
+				String wrongAnswer2 = rs.getString("valasz2");
+				String wrongAnswer3 = rs.getString("valasz3");
+				int level = rs.getInt("szint");
+				int numberOfAsked = rs.getInt("megkerdezve");
+				int numberOfAnswered = rs.getInt("megvalaszolva");
+
+
+
+				
+				
+				Question questionObj = new Question(id, categoryId, question, answer, wrongAnswer1, wrongAnswer2, wrongAnswer3, level, numberOfAsked, numberOfAnswered);
+				
+				questionList.add(questionObj);
+			}
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return questionList;
+	}
+	
+	public void closeConnection() throws SQLException {
+		connection.close();
+	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
