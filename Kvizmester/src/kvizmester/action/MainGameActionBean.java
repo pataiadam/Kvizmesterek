@@ -1,5 +1,7 @@
 package kvizmester.action;
 
+import java.util.ArrayList;
+
 import kvizmester.beans.Game;
 import kvizmester.beans.Question;
 import kvizmester.common.BaseActionBean;
@@ -18,15 +20,14 @@ public class MainGameActionBean extends BaseActionBean {
 	private Question question;
 	private int[] categories;
 	private int qNumber;
+	
 
 	@DefaultHandler
 	public Resolution mainGame() {
 		Game tmp= GameActionBean.getGames().get(roomName);
-		this.game = GameActionBean.getGames().get(roomName);
-		this.categories=game.getCategories();
 		if (me.equals(tmp.getPlayer1()) || me.equals(tmp.getPlayer2())) {
-			
-			
+			this.game = GameActionBean.getGames().get(roomName);
+			this.categories=game.getCategories();
 			return new ForwardResolution(VIEW);
 		}
 		return new RedirectResolution(GameActionBean.class);
@@ -34,13 +35,26 @@ public class MainGameActionBean extends BaseActionBean {
 	
 	public Resolution clickedOnQuestion(){
 		this.game = GameActionBean.getGames().get(roomName);
-		
 		this.question=game.getQuestions().get(qNumber);
-		System.out.println(this.roomName);
+		if(this.game.getAskedQuestions()[qNumber]!=1){
+			System.out.println("no");
+			int [] tmp= this.game.getAskedQuestions();
+			tmp[qNumber]=1;
+			this.game.setAskedQuestions(tmp);
+		}
 		System.out.println("óóóóóóóóó"+qNumber);
-		System.out.println(game.getQuestions().get(0).getQuestion());
 		return new ForwardResolution("/WEB-INF/web/test.jsp");
 	}
+	
+	public Resolution questionHandler(){
+		System.out.println("asshole");
+		ArrayList<Integer> asked = new ArrayList<>();
+		for(int i : GameActionBean.getGames().get(roomName).getAskedQuestions()){
+			asked.add(i);
+		}
+		return new JavaScriptResolution(asked);
+	}
+	
 
 	public String getMe() {
 		return me;
@@ -89,5 +103,6 @@ public class MainGameActionBean extends BaseActionBean {
 	public void setCategories(int[] categories) {
 		this.categories = categories;
 	}
+
 
 }

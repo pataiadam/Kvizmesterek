@@ -15,10 +15,32 @@
 						});
 			}
 
+			function questionHandler(box) {
+				params = {};
+				params = 'questionHandler';
+				$.post('${kvizmester.action.MainGameActionBean}', params,
+						function(askedArray) {
+							var askedVar = eval(askedArray);
+							for ( var i = 0; i < askedVar.length; i++) {
+								element = askedVar[i];
+								if (element == 1) {
+									var doboz = ".question." + i;
+									$(doboz).css('background', 'red');
+								}
+							}
+
+						});
+			}
+
+			var myVar = setInterval(function() {
+				questionHandler(".question");
+			}, 3000);
+
 			$(document).ready(function() {
 				$(".question").click(function() {
 					invoke($(this).attr('class').split(' ')[1]);
 					$(".questionPanel").css('display', 'block');
+					//$(this).css('background', 'red');
 				});
 
 				$(".oksa").click(function() {
@@ -43,7 +65,8 @@
 					<c:forEach begin="0" end="4" var="j">
 
 						<div class="question ${j*5+i}"
-							style="<c:if test="${j%5==0}">clear: both;</c:if>">${actionBean.game.getQuestions().get(j*5+i).getLevel()} pont</div>
+							style="<c:if test="${j%5==0}">clear: both;</c:if>">${actionBean.game.getQuestions().get(j*5+i).getLevel()}
+							pont</div>
 
 					</c:forEach>
 				</c:forEach>

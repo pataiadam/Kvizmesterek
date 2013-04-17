@@ -13,6 +13,7 @@ public class Game {
 	private boolean player2IsHere = false;
 	private int tmp;
 	private List<Question> questions = new ArrayList<>();
+	private int[] askedQuestions = new int[25]; //1 ha igen, különben nem
 	private int[] categories;
 	String[] categoriesName;
 	private Random gen = new Random();
@@ -118,6 +119,14 @@ public class Game {
 	
 	public String[] getCategoriesName() {
 		return categoriesName;
+	}
+
+	public int[] getAskedQuestions() {
+		return askedQuestions;
+	}
+
+	public void setAskedQuestions(int[] askedQuestions) {
+		this.askedQuestions = askedQuestions;
 	}
 
 }
