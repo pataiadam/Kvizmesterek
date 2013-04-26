@@ -58,19 +58,18 @@ public class Test extends HttpServlet {
 		try {
 			
 			/**------------------------------------------------------------**/
-			String serverName = "10.110.10.1"; 
+			String serverName = "localhost"; 
 			String portNumber = "1521";
 			String sid = "xe";
 			String url="jdbc:oracle:thin:@"+serverName+":"+ portNumber+":"+sid; 
-			String user = "SYSTEM";
-			String pass = "admin"; 
+			String user = "norbertozeke";
+			String pass = "aA914666"; 
 			/**------------------------------------------------------------**/
 			
 			
 			
 
-			/*connection = DriverManager.getConnection(
-					"jdbc:oracle:thin:@10.110.10.1:1521:xe", "SYSTEM", "admin");*/
+
 			connection = DriverManager.getConnection(url, user, pass);
 					
 					
@@ -134,7 +133,7 @@ public class Test extends HttpServlet {
 			}
  
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
  
 		} finally {
  
@@ -216,7 +215,7 @@ public class Test extends HttpServlet {
 			}
  
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
  
 		} finally {
  
