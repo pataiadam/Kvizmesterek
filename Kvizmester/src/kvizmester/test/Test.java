@@ -131,26 +131,38 @@ public class Test extends HttpServlet {
 		try {
 			
 			preparedStatement = connection.prepareStatement(selectSQL);
+			
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
+			
+			System.out.println(preparedStatement.execute());
  
 			// execute select SQL stetement
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			int foundUsers = 0;
+			
+			System.out.println(rs.getFetchSize());
  
 			while (rs.next()) {
 				foundUsers++;
 			}
 			
+			
+			System.out.println(username);
+			System.out.println(password);
+
+			System.out.println(foundUsers);
 			if(foundUsers > 0) {
 				return true;
 			} else {
 				return false;
 			}
+			
+			
  
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
  
 		} finally {
  

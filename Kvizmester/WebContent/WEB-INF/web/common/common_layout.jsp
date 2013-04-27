@@ -32,6 +32,7 @@
 <link href="css/docs.css" rel="stylesheet">
 <link href="css/tables.css" rel="stylesheet">
 <link href="css/game/game.css" rel="stylesheet">
+<link href="css/forum.css" rel="stylesheet">
 
 </head>
 
@@ -71,6 +72,7 @@
 										<li><a href="${modifyURL }"> Témakörök </a></li>
 										<li><a href="${modifyURL }"> Kérdések </a></li>
 										<li><a href="${modifyURL }"> Reklámok </a></li>
+										<li><a href="${ForumURL}"> Fórum </a></li>
 										<li><a href="${logoutURL}"> Kijelentkezés </a></li>
 									</ul>
 								</c:if>
