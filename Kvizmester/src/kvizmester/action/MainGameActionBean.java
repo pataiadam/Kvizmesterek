@@ -1,6 +1,8 @@
 package kvizmester.action;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import kvizmester.beans.Game;
 import kvizmester.beans.Question;
@@ -18,6 +20,7 @@ public class MainGameActionBean extends BaseActionBean {
 	private String roomName;
 	private Game game;
 	private Question question;
+	private ArrayList<String> answers = new ArrayList<>();
 	private int[] categories;
 	private int qNumber;
 	
@@ -36,8 +39,12 @@ public class MainGameActionBean extends BaseActionBean {
 	public Resolution clickedOnQuestion(){
 		this.game = GameActionBean.getGames().get(roomName);
 		this.question=game.getQuestions().get(qNumber);
+		this.answers.add(this.question.getAnswer()+"Helyes");
+		this.answers.add(this.question.getWrongAnswer1());
+		this.answers.add(this.question.getWrongAnswer2());
+		this.answers.add(this.question.getWrongAnswer3());
+		Collections.shuffle(answers);
 		if(this.game.getAskedQuestions()[qNumber]!=1){
-			System.out.println("no");
 			int [] tmp= this.game.getAskedQuestions();
 			tmp[qNumber]=1;
 			this.game.setAskedQuestions(tmp);
@@ -102,6 +109,14 @@ public class MainGameActionBean extends BaseActionBean {
 
 	public void setCategories(int[] categories) {
 		this.categories = categories;
+	}
+
+	public ArrayList<String> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(ArrayList<String> answers) {
+		this.answers = answers;
 	}
 
 

@@ -34,17 +34,13 @@
 
 			var myVar = setInterval(function() {
 				questionHandler(".question");
-			}, 3000);
+			}, 100);
 
 			$(document).ready(function() {
 				$(".question").click(function() {
 					invoke($(this).attr('class').split(' ')[1]);
 					$(".questionPanel").css('display', 'block');
 					//$(this).css('background', 'red');
-				});
-
-				$(".oksa").click(function() {
-					$(".questionPanel").css('display', 'none');
 				});
 			});
 		</script>
