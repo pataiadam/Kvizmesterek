@@ -85,7 +85,6 @@ public class LoginActionBean extends BaseActionBean {
 	
 	public Resolution login() {
 		Test test = new Test();
-		
 
 		if (test.validateUser(username, password)) {
 			User user = test.getUserByUsername(username);

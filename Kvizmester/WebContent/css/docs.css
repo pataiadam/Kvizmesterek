@@ -191,6 +191,9 @@ hr.soften2 {
 	margin-bottom: 30px;
 }
 .splash {
+	background:img/background.jpg no-repeat scroll transparent;
+    position:absolute;
+    bottom:0;
 	position: absolute;
 	z-index: -1000;
 	top: 0;
