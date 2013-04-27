@@ -4,6 +4,9 @@
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
 	
+	<s:url beanclass="kvizmester.action.UsersActionBean" var="deleteURL" event="deleteUserById" />
+	
+	
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$('#usersTable').dataTable({
@@ -13,12 +16,20 @@
 	        "bScrollCollapse": true
 			
 	    });
- 	});       	
-
+ 	});
 	
+	function deleteUserById(id, name) {
+		if (confirm('Biztosan törölni kívánja ' + name + ' felhasználót?')) { 
+			window.location.assign("${deleteURL}" + "&deleteUserId=" + id);
+			}
+	}
 </script>
 
-<div style="height: 600px; overflow-y: auto; overflow-x: hidden">
+
+
+<div style="height: 600px; overflow-y: hidden; overflow-x: hidden">
+<s:messages />
+<s:errors />
 <table id="usersTable" class="tablesorter">
 	<thead>
 		<tr>
@@ -38,7 +49,13 @@
 				Születésnap
 			</th>
 			<th>
+				Regisztrált
+			</th>
+			<th>
 				Jogosultság
+			</th>
+			<th>
+				Felhasználó törlése
 			</th>
 		</tr>
 
@@ -63,12 +80,20 @@
             value="${user.birthdate}" />
 			</td>
 			<td class="dashColumn">
+			<fmt:formatDate pattern="yyyy.MM.dd" 
+            value="${user.regDate}" />
+			</td>
+			<td class="dashColumn">
 			${user.role}
+			</td>
+			<td class="dashColumn">
+			<a href="javascript:deleteUserById('${user.id}', '${user.username}')">Törlés</a>
 			</td>
 			
 		</tr>
 	</c:forEach>
 	</table>
+	
 	</div>
 	
 	</s:layout-component>

@@ -13,16 +13,19 @@ public class User {
 	
 	private Date birthdate;
 	
+	private Date regDate;
+	
 	private int score;
 	
 	private Role role;
 	
-	public User(Role role, int id, String username, String email, Date birthdate, int score) {
+	public User(Role role, int id, String username, String email, Date birthdate, Date regDate, int score) {
 		this.role = role;
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.birthdate = birthdate;
+		this.regDate = regDate;
 		this.score = score;
 	}
 
@@ -73,5 +76,12 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
 }

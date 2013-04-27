@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kvizmester.beans.Advertising;
 import kvizmester.beans.Category;
 import kvizmester.beans.Question;
 import kvizmester.beans.User;
@@ -210,6 +211,13 @@ public class Test extends HttpServlet {
 				} else {
 					birthdate = new Date(rs.getDate("szuletesnap").getTime());
 				}
+				java.sql.Date reg = rs.getDate("regdate");
+				Date regDate;
+				if(reg == null) {
+					regDate = new Date();
+				} else {
+					regDate = new Date(rs.getDate("regdate").getTime());
+				}
 				
 				
 				int admin = rs.getInt("admin");
@@ -220,9 +228,7 @@ public class Test extends HttpServlet {
 					role = Role.USER;
 				}
 				
-				user = new User(role, id, username, email, birthdate, score);
-				
-				System.out.println(user.getRole() + "\n" + user.getUsername() + user.getBirthdate());
+				user = new User(role, id, username, email, birthdate, regDate, score);
 			}
  
 		} catch (SQLException e) {
@@ -260,22 +266,10 @@ public class Test extends HttpServlet {
 		}
 		
 		PreparedStatement preparedStatement = null;
-		 
-		String selectId = "SELECT MAX(jatekos_id) FROM jatekos";
 		
-		String insertUser = "INSERT INTO jatekos VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String insertUser = "INSERT INTO jatekos (felhasznalo_nev, email, jelszo, pontszam, szuletesnap, admin) VALUES (?, ?, ?, ?, ?, ?)";
  
 		try {
-			preparedStatement = connection.prepareStatement(selectId);
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			int id = 0;
-			
-			while(rs.next()) {
-				id = rs.getInt("MAX(jatekos_id)");
-			}
-			
-			id++;
 			
 			int score = 50;
 			
@@ -283,16 +277,15 @@ public class Test extends HttpServlet {
 			java.sql.Date sqlDate = new java.sql.Date(birthdate.getTime());
 			
 			preparedStatement = connection.prepareStatement(insertUser);
-			preparedStatement.setInt(1, id);
-			preparedStatement.setString(2, username);
-			preparedStatement.setString(3, email);
-			preparedStatement.setString(4, password);
-			preparedStatement.setInt(5, score);
-			preparedStatement.setDate(6, sqlDate);
-			preparedStatement.setInt(7, 0);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, email);
+			preparedStatement.setString(3, password);
+			preparedStatement.setInt(4, score);
+			preparedStatement.setDate(5, sqlDate);
+			preparedStatement.setInt(6, 0);
  
 			// execute select SQL stetement
-			rs = preparedStatement.executeQuery();
+			ResultSet rs = preparedStatement.executeQuery();
  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -404,7 +397,21 @@ public class Test extends HttpServlet {
 				String username = rs.getString("felhasznalo_nev");
 				String email = rs.getString("email");
 				int score = rs.getInt("pontszam");
-				Date birthdate = new Date(rs.getDate("szuletesnap").getTime());
+				java.sql.Date birth = rs.getDate("szuletesnap");
+				Date birthdate;
+				if(birth == null) {
+					birthdate = new Date();
+				} else {
+					birthdate = new Date(rs.getDate("szuletesnap").getTime());
+				}
+				java.sql.Date reg = rs.getDate("regdate");
+				Date regDate;
+				if(reg == null) {
+					regDate = new Date();
+				} else {
+					regDate = new Date(rs.getDate("regdate").getTime());
+				}
+
 				int admin = rs.getInt("admin");
 				Role role;
 				if(admin == 1) {
@@ -412,7 +419,7 @@ public class Test extends HttpServlet {
 				} else {
 					role = Role.USER;
 				}
-				User user = new User(role, id, username, email, birthdate, score);
+				User user = new User(role, id, username, email, birthdate, regDate, score);
 				
 				users.add(user);
 			}
@@ -455,27 +462,15 @@ public class Test extends HttpServlet {
 		
 		PreparedStatement preparedStatement = null;
 		
-		String insert = "INSERT INTO kategoria VALUES(?, ?)";
-		
-		int max = 0;
-		
-		String maxId = "SELECT max(kategoria_id) FROM kategoria";
+		String insert = "INSERT INTO kategoria(nev) VALUES(?)";		
  
 		try {
 			
-			preparedStatement = connection.prepareStatement(maxId);
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			while(rs.next()) {
-				max = rs.getInt("max(kategoria_id)");
-			}
-			
 			preparedStatement = connection.prepareStatement(insert);
-			preparedStatement.setInt(1, (max + 1));
-			preparedStatement.setString(2, categoryName);
+			preparedStatement.setString(1, categoryName);
  
 			// execute select SQL stetement
-			rs = preparedStatement.executeQuery();
+			ResultSet rs = preparedStatement.executeQuery();
  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -516,36 +511,21 @@ public class Test extends HttpServlet {
 		
 		PreparedStatement preparedStatement = null;
 		
-		String insert = "INSERT INTO kerdes VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
-		int max = 0;
-		
-		String maxId = "SELECT max(kerdes_id) FROM kerdes";
- 
+		String insert = "INSERT INTO kerdes(kategoria_id, kerdes_szovege, helyes_valasz, szint,valasz1, valasz2, valasz3) VALUES(?, ?, ?, ?, ?, ?, ?)";
 		try {
 			
-			preparedStatement = connection.prepareStatement(maxId);
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			while(rs.next()) {
-				max = rs.getInt("max(kerdes_id)");
-			}
-			
 			preparedStatement = connection.prepareStatement(insert);
-			preparedStatement.setInt(1, (max + 1));
-			preparedStatement.setInt(2, categoryId);
-			preparedStatement.setString(3,  question);
-			preparedStatement.setString(4,  answer);
-			preparedStatement.setInt(5, level);
-			preparedStatement.setInt(6, 0);
-			preparedStatement.setInt(7, 0);
-			preparedStatement.setString(8, answer1);
-			preparedStatement.setString(9, answer2);
-			preparedStatement.setString(10, answer3);
+			preparedStatement.setInt(1, categoryId);
+			preparedStatement.setString(2,  question);
+			preparedStatement.setString(3,  answer);
+			preparedStatement.setInt(4, level);
+			preparedStatement.setString(5, answer1);
+			preparedStatement.setString(6, answer2);
+			preparedStatement.setString(7, answer3);
 			
  
 			// execute select SQL stetement
-			rs = preparedStatement.executeQuery();
+			ResultSet rs = preparedStatement.executeQuery();
  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -568,7 +548,7 @@ public class Test extends HttpServlet {
 		
 		return true;
 	}
-	
+		
 	public List<Category> getAllCategory() {
 		List<Category> categoryList = new ArrayList<Category>();
 		
@@ -586,7 +566,7 @@ public class Test extends HttpServlet {
 		
 		PreparedStatement preparedStatement = null;
 		
-		String maxId = "SELECT * FROM kategoria";
+		String maxId = "SELECT * FROM kategoria ORDER BY nev";
  
 		try {
 			
@@ -641,17 +621,18 @@ public class Test extends HttpServlet {
 		
 		PreparedStatement preparedStatement = null;
 		
-		String maxId = "SELECT * FROM kerdes WHERE kategoria_id=?";
+		String questions = "SELECT * FROM kerdes LEFT JOIN kategoria ON kerdes.kategoria_id = kategoria.kategoria_id WHERE kerdes.kategoria_id = ?";
  
 		try {
 			
-			preparedStatement = connection.prepareStatement(maxId);
+			preparedStatement = connection.prepareStatement(questions);
 			preparedStatement.setInt(1, categoryId);
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			while(rs.next()) {
-				int id = rs.getInt("kategoria_id");
+				int id = rs.getInt("kerdes_id");
+				String category = rs.getString("nev");
 				String question = rs.getString("kerdes_szovege");
 				String answer = rs.getString("helyes_valasz");
 				String wrongAnswer1 = rs.getString("valasz1");
@@ -665,7 +646,7 @@ public class Test extends HttpServlet {
 
 				
 				
-				Question questionObj = new Question(id, categoryId, question, answer, wrongAnswer1, wrongAnswer2, wrongAnswer3, level, numberOfAsked, numberOfAnswered);
+				Question questionObj = new Question(id, categoryId, category, question, answer, wrongAnswer1, wrongAnswer2, wrongAnswer3, level, numberOfAsked, numberOfAnswered);
 				
 				questionList.add(questionObj);
 			}
@@ -690,6 +671,581 @@ public class Test extends HttpServlet {
 		}
 		
 		return questionList;
+	}
+	
+	public List<Question> getAllQuestions() {
+		List<Question> questionList = new ArrayList<Question>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String questions = "SELECT * FROM kerdes LEFT JOIN kategoria ON kerdes.kategoria_id = kategoria.kategoria_id";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(questions);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				int id = rs.getInt("kerdes_id");
+				int categoryId = rs.getInt("kategoria_id");
+				String category = rs.getString("nev");
+				String question = rs.getString("kerdes_szovege");
+				String answer = rs.getString("helyes_valasz");
+				String wrongAnswer1 = rs.getString("valasz1");
+				String wrongAnswer2 = rs.getString("valasz2");
+				String wrongAnswer3 = rs.getString("valasz3");
+				int level = rs.getInt("szint");
+				int numberOfAsked = rs.getInt("megkerdezve");
+				int numberOfAnswered = rs.getInt("megvalaszolva");
+
+
+
+				
+				
+				Question questionObj = new Question(id, categoryId, category, question, answer, wrongAnswer1, wrongAnswer2, wrongAnswer3, level, numberOfAsked, numberOfAnswered);
+				
+				questionList.add(questionObj);
+			}
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return questionList;
+	}
+	
+	public List<Advertising> getAllAdvertising() {
+		List<Advertising> advertising = new ArrayList<Advertising>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "SELECT * FROM reklam";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				int id = rs.getInt("reklam_id");
+				String url = rs.getString("url");
+				Date beginning = new Date(rs.getDate("datum_kezdo").getTime());
+				Date end = new Date(rs.getDate("datum_veg").getTime());
+				
+
+
+
+				
+				
+				Advertising advertObj = new Advertising(id, url, beginning, end);
+				
+				advertising.add(advertObj);
+			}
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return advertising;
+	}
+	
+	public boolean deleteUserById(int userId) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "DELETE FROM jatekos WHERE jatekos_id = ?";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, userId);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public Category getCategoryByName(String categoryName) {
+		Category category = null;
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "SELECT * FROM kategoria WHERE kategoria.nev = ?";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setString(1, categoryName);
+			
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				int id = rs.getInt("kategoria_id");
+				
+				category = new Category(id, categoryName);
+			}
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return category;
+	}
+	
+	public boolean deleteCategoryById(int categoryId) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "DELETE FROM kategoria WHERE kategoria_id = ?";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, categoryId);
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean updateCategory(int categoryId, String categoryName) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "UPDATE kategoria SET nev = ? WHERE kategoria_id = ?";
+ 
+		try {
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setString(1, categoryName);
+			preparedStatement.setInt(2, categoryId);
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean uploadAdvertising(String url, Date beginning, Date end) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "INSERT INTO reklam(url, datum_kezdo, datum_veg) VALUES(?, ?, ?)";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setString(1, url);
+			preparedStatement.setDate(2, new java.sql.Date(beginning.getTime()));
+			preparedStatement.setDate(3, new java.sql.Date(end.getTime()));
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+		
+		
+		
+		
+	}
+	
+	public boolean deleteAdvertisingById(int advertId) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "DELETE FROM reklam WHERE reklam_id = ?";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, advertId);
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean updateAdvertising(int id, String url, Date beginning, Date end) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "UPDATE reklam SET url = ?, datum_kezdo = ?, datum_veg = ? WHERE reklam_id = ?";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setString(1, url);
+			preparedStatement.setDate(2, new java.sql.Date(beginning.getTime()));
+			preparedStatement.setDate(3, new java.sql.Date(end.getTime()));
+			preparedStatement.setInt(4, id);
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean updateQuestionById(int id, int categoryId, String question, String answer, String answer1, String answer2, String answer3, int level) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "UPDATE kerdes SET kategoria_id = ?, kerdes_szovege = ?, helyes_valasz = ?, szint = ?, valasz1 = ?, valasz2 = ?, valasz3 = ? WHERE kerdes_id = ?";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, categoryId);
+			preparedStatement.setString(2, question);
+			preparedStatement.setString(3, answer);
+			preparedStatement.setInt(4, level);
+			preparedStatement.setString(5, answer1);
+			preparedStatement.setString(6, answer2);
+			preparedStatement.setString(7, answer3);
+			preparedStatement.setInt(8, id);
+
+
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean deleteQuestion(int questionId) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "DELETE FROM kerdes WHERE kerdes_id = ?";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, questionId);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
 	}
 	
 	public void closeConnection() throws SQLException {

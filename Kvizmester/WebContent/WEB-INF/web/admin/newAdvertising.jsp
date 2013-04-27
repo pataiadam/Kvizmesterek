@@ -8,59 +8,43 @@
 
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
-		<s:form beanclass="kvizmester.action.ModifyRegActionBean">
+		<s:form beanclass="kvizmester.action.AdvertisingActionBean">
 			
 			
 			<table align="center">
 				<tr>
-					<td colspan="2"><h2>Adatok módosítása</h2></td>
+					<td colspan="2"><h2>Új hirdetés</h2></td>
 				</tr>
 				<tr>
 					<td align="right">
-						<s:label name="label.email" for="email" />
+						URL
 					</td>
 					
 					<td>
-						<s:text id="email" name="email" value="${actionBean.email }"/>
+						<s:text id="url" name="url" />
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-						Jelenlegi jelszó
+						Kezdő dátum (év.hónap.nap)
 					</td>
+					
 					<td>
-						<s:password id="oldpassword" name="oldpassword" />
-						
+						<s:text id="beginning" name="beginning" />
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-						Új jelszó (nem kötelező)
+						Vég dátum (év.hónap.nap)
 					</td>
+					
 					<td>
-						<s:password id="password" name="password" />
-						
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						Új jelszó megerősítése
-					</td>
-					<td>
-						<s:password id="password2" name="password2"/>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<s:label name="label.birthdate" for="birthdate"/>
-					</td>
-					<td>
-						<s:text id="birthdate" name="birthdate" value="${actionBean.birthdate }"/>
+						<s:text id="end" name="end" />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<s:submit name="Regisztráció" value="Módosítás" />
+						<s:submit name="Rögzítés" value="Rögzítés" />
 
 						<s:errors />
 						<s:messages />

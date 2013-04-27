@@ -8,59 +8,81 @@
 
 <s:layout-render name="/WEB-INF/web/common/common_layout.jsp">
 	<s:layout-component name="body">
-		<s:form beanclass="kvizmester.action.ModifyRegActionBean">
+		<s:form beanclass="kvizmester.action.QuestionsActionBean">
 			
 			
 			<table align="center">
 				<tr>
-					<td colspan="2"><h2>Adatok módosítása</h2></td>
+					<td colspan="2"><h2>Új kérdés</h2></td>
 				</tr>
 				<tr>
 					<td align="right">
-						<s:label name="label.email" for="email" />
+						Kategória
 					</td>
 					
 					<td>
-						<s:text id="email" name="email" value="${actionBean.email }"/>
+						<s:select name="categoryId">
+                                <s:options-collection collection="${actionBean.categoryList}" label="nev" value="id"/>
+                      </s:select>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-						Jelenlegi jelszó
+						Kérdés
 					</td>
+					
 					<td>
-						<s:password id="oldpassword" name="oldpassword" />
-						
+						<s:text id="question" name="question" />
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-						Új jelszó (nem kötelező)
+						Helyes válasz
 					</td>
+					
 					<td>
-						<s:password id="password" name="password" />
-						
+						<s:text id="answer" name="answer" />
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-						Új jelszó megerősítése
+						Rossz válasz 1
 					</td>
+					
 					<td>
-						<s:password id="password2" name="password2"/>
+						<s:text id="wrongAnswer1" name="wrongAnswer1" />
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-						<s:label name="label.birthdate" for="birthdate"/>
+						Rossz válasz 2
 					</td>
+					
 					<td>
-						<s:text id="birthdate" name="birthdate" value="${actionBean.birthdate }"/>
+						<s:text id="wrongAnswer2" name="wrongAnswer2" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						Rossz válasz 3
+					</td>
+					
+					<td>
+						<s:text id="wrongAnswer3" name="wrongAnswer3" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						Szint
+					</td>
+					
+					<td>
+						<s:text id="level" name="level" />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<s:submit name="Regisztráció" value="Módosítás" />
+						<s:submit name="uploadQuestion" value="Rögzítés" />
 
 						<s:errors />
 						<s:messages />

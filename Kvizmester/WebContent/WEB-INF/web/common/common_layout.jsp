@@ -11,6 +11,9 @@
 <s:url beanclass="kvizmester.action.HomeActionBean" var="homeURL" />
 <s:url beanclass="kvizmester.action.UsersActionBean" var="usersURL" />
 <s:url beanclass="kvizmester.action.DummyForumActionBean" var="ForumURL" />
+<s:url beanclass="kvizmester.action.CategoryActionBean" var="categoryURL" />
+<s:url beanclass="kvizmester.action.QuestionsActionBean" var="questionsURL" />
+<s:url beanclass="kvizmester.action.AdvertisingActionBean" var="advertURL" />
 
 <s:layout-definition>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -68,9 +71,9 @@
 									<ul class="nav">
 										<li><a href="${modifyURL }"> Adatmódosítás </a></li>
 										<li><a href="${usersURL }"> Felhasználók </a></li>
-										<li><a href="${modifyURL }"> Témakörök </a></li>
-										<li><a href="${modifyURL }"> Kérdések </a></li>
-										<li><a href="${modifyURL }"> Reklámok </a></li>
+										<li><a href="${categoryURL }"> Témakörök </a></li>
+										<li><a href="${questionsURL }"> Kérdések </a></li>
+										<li><a href="${advertURL }"> Reklámok </a></li>
 										<li><a href="${logoutURL}"> Kijelentkezés </a></li>
 									</ul>
 								</c:if>

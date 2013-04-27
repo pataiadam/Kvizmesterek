@@ -102,7 +102,7 @@ public class ModifyRegActionBean extends BaseActionBean {
 		
 		if(hiba == 0) {
 			getContext().getMessages().add(new LocalizableMessage("modify.successful"));
-			User user = new User(getContext().getUser().getRole(), id, username, email, birthdate, getContext().getUser().getScore());
+			User user = new User(getContext().getUser().getRole(), id, username, email, birthdate, getContext().getUser().getRegDate(), getContext().getUser().getScore());
 			getContext().setUser(user);
 		}
 		

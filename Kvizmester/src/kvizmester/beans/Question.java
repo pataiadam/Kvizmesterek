@@ -6,6 +6,8 @@ public class Question {
 	
 	private int categoryId;
 	
+	private String category;
+	
 	private String question;
 	
 	private String answer;
@@ -22,9 +24,10 @@ public class Question {
 	
 	private int numberOfAnswered;
 	
-	public Question(int id, int categoryId, String question, String answer, String wrongAnswer1, String wrongAnswer2, String wrongAnswer3, int level, int numberOfAsked, int numberOfAnswered) {
+	public Question(int id, int categoryId, String category, String question, String answer, String wrongAnswer1, String wrongAnswer2, String wrongAnswer3, int level, int numberOfAsked, int numberOfAnswered) {
 		this.id = id;
 		this.categoryId = categoryId;
+		this.category = category;
 		this.question = question;
 		this.answer = answer;
 		this.wrongAnswer1 = wrongAnswer1;
@@ -114,4 +117,13 @@ public class Question {
 	public void setNumberOfAnswered(int numberOfAnswered) {
 		this.numberOfAnswered = numberOfAnswered;
 	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
 }

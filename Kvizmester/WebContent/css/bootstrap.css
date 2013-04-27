@@ -731,7 +731,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	display: inline-block;
 	height: 20px;
 	padding: 4px 6px;
-	margin-bottom: 9px;
 	font-size: 14px;
 	line-height: 20px;
 	color: #555555;
