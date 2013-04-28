@@ -115,7 +115,7 @@ public class MainGameActionBean extends BaseActionBean {
 		if(ujAns.equals(question.getAnswer())){
 			asked="Helyes!";
 			
-			if(game.getPlayer2().equals(getUser().getUsername())){
+			if(!game.getPlayer2().equals(getUser().getUsername())){
 				game.setPlayer1Point(game.getPlayer1Point()+question.getLevel());
 				test.updateStatistics(game.getPlayer1Id(), question.getCategoryId(), true);
 			}else{
@@ -124,7 +124,7 @@ public class MainGameActionBean extends BaseActionBean {
 			}
 		}
 		else{
-			if(game.getPlayer2().equals(getUser().getUsername())){
+			if(!game.getPlayer2().equals(getUser().getUsername())){
 				game.setPlayer1Point(game.getPlayer1Point()-question.getLevel());
 				test.updateStatistics(game.getPlayer1Id(), question.getCategoryId(), false);
 			}else{
