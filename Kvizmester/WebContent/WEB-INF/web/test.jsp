@@ -38,12 +38,7 @@
 										answered++;
 									}
 								}
-								if(answered>=10){
-									alert('A játéknak vége, a pontszámok frissültek!');
-									params = 'gameEnd';
-									$.post('${kvizmester.action.MainGameActionBean}', params, function(askedArray) {});
-									window.location.assign("Game.action");
-								}
+								
 							});
 					
 				});

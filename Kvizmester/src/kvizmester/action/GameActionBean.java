@@ -34,14 +34,18 @@ public class GameActionBean extends BaseActionBean {
     public Resolution submit() {
     	Test test = new Test();
     	try{
-    	Room tmpR = new Room(text, player);
-    	tmpR.setCreaterName(myName);
-    	Game tmpG = new Game(player);
-    	tmpG.setPlayer2(myName);
-    	tmpG.setPlayer1Point(test.getUserByUsername(player).getScore());
-    	tmpG.setPlayer2Point(test.getUserByUsername(myName).getScore());
-    	rooms.add(tmpR);
-    	games.put(text, tmpG);
+	    	Room tmpR = new Room(text, player);
+	    	tmpR.setCreaterName(myName);
+	    	Game tmpG = new Game(player);
+	    	tmpG.setPlayer2(myName);
+	    	tmpG.setPlayer1Point(test.getUserByUsername(player).getScore());
+	    	tmpG.setPlayer2Point(test.getUserByUsername(myName).getScore());
+	    	tmpG.setPlayer1StartPoint(test.getUserByUsername(player).getScore());
+	    	tmpG.setPlayer2StartPoint(test.getUserByUsername(myName).getScore());
+	    	tmpG.setPlayer1Id(test.getUserByUsername(player).getId());
+	    	tmpG.setPlayer2Id(test.getUserByUsername(myName).getId());
+	    	rooms.add(tmpR);
+	    	games.put(text, tmpG);
     	}
     	catch(Exception e){
     		//TODO

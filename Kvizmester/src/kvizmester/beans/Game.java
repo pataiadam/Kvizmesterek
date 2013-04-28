@@ -13,7 +13,9 @@ public class Game {
 	private int player1Id;
 	private int player2Id;
 	private int player1Point;
+	private int player1StartPoint;
 	private int player2Point;
+	private int player2StartPoint;
 	private boolean player1IsHere = true;
 	private boolean player2IsHere = false;
 	private boolean player1IsNext= true;
@@ -192,6 +194,22 @@ public class Game {
 
 	public void setPlayer2Id(int player2Id) {
 		this.player2Id = player2Id;
+	}
+
+	public int getPlayer1StartPoint() {
+		return player1StartPoint;
+	}
+
+	public void setPlayer1StartPoint(int player1StartPoint) {
+		this.player1StartPoint = player1StartPoint;
+	}
+
+	public int getPlayer2StartPoint() {
+		return player2StartPoint;
+	}
+
+	public void setPlayer2StartPoint(int player2StartPoint) {
+		this.player2StartPoint = player2StartPoint;
 	}
 
 }

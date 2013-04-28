@@ -29,13 +29,24 @@
 				$.post('${kvizmester.action.MainGameActionBean}', params,
 						function(askedArray) {
 							var askedVar = eval(askedArray);
+							var count = 0;
 							for ( var i = 0; i < askedVar.length; i++) {
 								element = askedVar[i];
 								if (element == 1) {
 									var doboz = ".question." + i;
 									$(doboz).css('background', 'red');
 									$(doboz).addClass("answered");
+									count++;
 								}
+							}
+							
+							if(count>=9){
+								$(".questionPanel").css('display', 'none');
+								params = 'gameEnd';
+								$.post('${kvizmester.action.MainGameActionBean}', params, function(winner) {
+									alert('A játéknak vége '+eval(winner)+' nyert');
+									window.location.assign("Game.action");
+								});
 							}
 							
 							if(askedVar[askedVar.length-1]==100){
@@ -73,7 +84,7 @@
 			var myVar = setInterval(function() {
 				questionHandler(".question");
 				pointsHandler();
-			}, 2000);
+			}, 200);
 
 			$(document).ready(function() {
 				$(".question").click(function() {
@@ -90,8 +101,8 @@
 		<h3>${actionBean.roomName}</h3>
 		<div class="gamePlace" style="height: 600px">
 			<div class="gameInfo" style="float: left">
-				<div class="playerInfo 1">${actionBean.game.player2}<br><div class="points 1"> 0 </div> pont</div>
-				<div class="playerInfo 2">${actionBean.game.player1}<br><div class="points 2"> 0 </div> pont</div>
+				<div class="playerInfo 1">${actionBean.game.player2}<br><div class="points 2"> 0 </div> pont</div>
+				<div class="playerInfo 2">${actionBean.game.player1}<br><div class="points 1"> 0 </div> pont</div>
 			</div>
 			<div class="questions" style="float: right; width: 70%">
 				<c:forEach begin="0" end="4" var="i">

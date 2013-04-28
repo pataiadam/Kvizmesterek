@@ -1,8 +1,10 @@
 package kvizmester.action;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import kvizmester.beans.Game;
 import kvizmester.beans.Question;
@@ -82,7 +84,7 @@ public class MainGameActionBean extends BaseActionBean {
 			asked.add(200);
 		}
 			
-			if(j>=10){
+			if(j>=9){
 				Room room = null;
 				for(Room r : GameActionBean.getStaticRooms()){
 					if(r.getRoomName().equals(roomName)){
@@ -108,21 +110,26 @@ public class MainGameActionBean extends BaseActionBean {
 		}
 		System.out.println(ujAns);
 		System.out.println(question.getAnswer());
-
+		Test test=new Test();
 		String asked = "Helytelen!";
 		if(ujAns.equals(question.getAnswer())){
 			asked="Helyes!";
+			
 			if(game.getPlayer2().equals(getUser().getUsername())){
 				game.setPlayer1Point(game.getPlayer1Point()+question.getLevel());
+				test.updateStatistics(game.getPlayer1Id(), question.getCategoryId(), true);
 			}else{
 				game.setPlayer2Point(game.getPlayer2Point()+question.getLevel());
+				test.updateStatistics(game.getPlayer2Id(), question.getCategoryId(), true);
 			}
 		}
 		else{
 			if(game.getPlayer2().equals(getUser().getUsername())){
 				game.setPlayer1Point(game.getPlayer1Point()-question.getLevel());
+				test.updateStatistics(game.getPlayer1Id(), question.getCategoryId(), false);
 			}else{
 				game.setPlayer2Point(game.getPlayer2Point()-question.getLevel());
+				test.updateStatistics(game.getPlayer2Id(), question.getCategoryId(), false);
 			}
 		}
 		
@@ -148,9 +155,27 @@ public class MainGameActionBean extends BaseActionBean {
 
 	public Resolution gameEnd(){
 		Test test = new Test();
+		this.game=GameActionBean.getGames().get(roomName);
+		test.updateScore(game.getPlayer1Id(), game.getPlayer1Point());
+		test.updateScore(game.getPlayer2Id(), game.getPlayer2Point());
+		int player1p=game.getPlayer1Point()-game.getPlayer1StartPoint();
+		int player2p=game.getPlayer2Point()-game.getPlayer2StartPoint();
+		String winner = "";
+		if(player1p>player2p){
+			winner=game.getPlayer1();
+			test.uploadVerseny(game.getPlayer1Id(), new Date());
+		}else{
+			winner=game.getPlayer2();
+			test.uploadVerseny(game.getPlayer2Id(), new Date());
+		}
 		
-		
-		return new JavaScriptResolution("Game.action");
+		try {
+			test.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new JavaScriptResolution(winner);
 	}
 
 	public String getMe() {
