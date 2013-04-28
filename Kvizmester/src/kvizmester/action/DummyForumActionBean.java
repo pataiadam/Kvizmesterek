@@ -196,7 +196,7 @@ public class DummyForumActionBean extends BaseActionBean {
 		}
 		catch(Exception e)
 		{
-			System.out.println("HIBA "+SQL+" -> "+e.getMessage()+e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 		
 		this.replyId=0;
