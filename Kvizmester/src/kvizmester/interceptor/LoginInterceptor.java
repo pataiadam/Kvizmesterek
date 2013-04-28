@@ -70,9 +70,6 @@ public class LoginInterceptor implements Interceptor {
 	 */
 	@Override
 	public Resolution intercept(ExecutionContext execContext) throws Exception {
-		
-		Test test = new Test();
-		test.connect();
 		Resolution resolution = execContext.proceed();
 		
 		final BaseActionBeanContext ctx = (BaseActionBeanContext) execContext

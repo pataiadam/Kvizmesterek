@@ -72,9 +72,9 @@
 									<ul class="nav">
 										<li><a href="${modifyURL }"> Adatmódosítás </a></li>
 										<li><a href="${usersURL }"> Felhasználók </a></li>
-										<li><a href="${modifyURL }"> Témakörök </a></li>
-										<li><a href="${modifyURL }"> Kérdések </a></li>
-										<li><a href="${modifyURL }"> Reklámok </a></li>
+										<li><a href="${categoryURL }"> Témakörök </a></li>
+										<li><a href="${questionsURL }"> Kérdések </a></li>
+										<li><a href="${advertURL }"> Reklámok </a></li>
 										<li><a href="${ForumURL}"> Fórum </a></li>
 										<li><a href="${logoutURL}"> Kijelentkezés </a></li>
 									</ul>

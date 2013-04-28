@@ -76,12 +76,12 @@ public class Test extends HttpServlet {
 		try {
 			
 			/**------------------------------------------------------------**/
-			String serverName = "localhost"; 
+			String serverName = "10.110.10.1"; 
 			String portNumber = "1521";
 			String sid = "xe";
 			String url="jdbc:oracle:thin:@"+serverName+":"+ portNumber+":"+sid; 
-			String user = "norbertozeke";
-			String pass = "aA914666"; 
+			String user = "SYSTEM";
+			String pass = "admin"; 
 			/**------------------------------------------------------------**/
 			
 			
@@ -1237,6 +1237,183 @@ public class Test extends HttpServlet {
 			preparedStatement.setInt(1, questionId);
 			
 			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean uploadVerseny(int nyertesId, Date idopont) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "INSERT INTO verseny(resztvevok_szama, nyertes_id, idopont) VALUES(2, ?, ?)";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, nyertesId);
+			preparedStatement.setDate(2, new java.sql.Date(idopont.getTime()));
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean updateScore(int userId, int score) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "UPDATE jatekos SET pontszam=? WHERE jatekos_id=?";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, score);
+			preparedStatement.setInt(2, userId);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+ 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean updateStatistics(int userId, int categoryId, boolean answeredCorrectly) {
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "SELECT * FROM jatekos_statisztika WHERE jatekos_id=? AND kategoria_id=?";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			preparedStatement.setInt(1, userId);
+			preparedStatement.setInt(2, categoryId);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			boolean talalt = false;
+			int helyesValaszok = 0;
+			int kerdezve = 0;
+			
+			while(rs.next()) {
+				talalt = true;
+				helyesValaszok = rs.getInt("helyes");
+				kerdezve = rs.getInt("kerdezve");
+			}
+			
+			kerdezve++;
+			
+			if(answeredCorrectly) {
+				helyesValaszok++;
+			}
+			
+			if(talalt) {
+				adverts = "UPDATE jatekos_statisztika SET helyes=?, kerdezve=?  WHERE jatekos_id=? AND kategoria_id=?";
+				preparedStatement = connection.prepareStatement(adverts);
+				preparedStatement.setInt(1, helyesValaszok);
+				preparedStatement.setInt(2, kerdezve);
+				preparedStatement.setInt(3, userId);
+				preparedStatement.setInt(4, categoryId);
+				
+				rs = preparedStatement.executeQuery();
+			} else {
+				adverts = "INSERT INTO jatekos_statisztika(jatekos_id, kategoria_id, helyes, kerdezve) VALUES(?, ?, ?, ?)";
+				preparedStatement = connection.prepareStatement(adverts);
+				preparedStatement.setInt(1, userId);
+				preparedStatement.setInt(2, categoryId);
+				preparedStatement.setInt(3, helyesValaszok);
+				preparedStatement.setInt(4, kerdezve);
+				
+				rs = preparedStatement.executeQuery();
+			}
  
 		} catch (SQLException e) {
 			e.printStackTrace();
