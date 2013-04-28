@@ -70,9 +70,7 @@ public class LoginInterceptor implements Interceptor {
 	 */
 	@Override
 	public Resolution intercept(ExecutionContext execContext) throws Exception {
-		
-		Test test = new Test();
-		test.connect();
+
 		Resolution resolution = execContext.proceed();
 		
 		final BaseActionBeanContext ctx = (BaseActionBeanContext) execContext
@@ -82,6 +80,7 @@ public class LoginInterceptor implements Interceptor {
 		if (ctx.getUser() == null
 				&& !ALLOWED_ACTION_CLASSES_MAP.get(Role.VISITOR).contains(
 						execContext.getActionBean().getClass())) {
+			
 			return new RedirectResolution(LoginActionBean.class);
 		}
 		//		else if (ctx.getRole() != null
@@ -90,6 +89,7 @@ public class LoginInterceptor implements Interceptor {
 		//			return new RedirectResolution(LoginActionBean.class);
 		//		} 
 		else {
+
 			return resolution;
 		}
 	}

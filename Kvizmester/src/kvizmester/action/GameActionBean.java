@@ -1,5 +1,6 @@
 package kvizmester.action;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import kvizmester.beans.Game;
 import kvizmester.beans.Room;
 import kvizmester.common.BaseActionBean;
+import kvizmester.test.Test;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -30,12 +32,27 @@ public class GameActionBean extends BaseActionBean {
 	}
 
     public Resolution submit() {
+    	Test test = new Test();
+    	try{
     	Room tmpR = new Room(text, player);
     	tmpR.setCreaterName(myName);
     	Game tmpG = new Game(player);
     	tmpG.setPlayer2(myName);
+    	tmpG.setPlayer1Point(test.getUserByUsername(player).getScore());
+    	tmpG.setPlayer2Point(test.getUserByUsername(myName).getScore());
     	rooms.add(tmpR);
     	games.put(text, tmpG);
+    	}
+    	catch(Exception e){
+    		//TODO
+    		System.out.println("Nincs ilyen felhasználó");
+    	}
+    	try {
+			test.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return new RedirectResolution(GameActionBean.class);
     }
 

@@ -6,9 +6,17 @@
 	<s:layout-component name="body">
 
 		<script type="text/javascript">
-			function invoke(qNumber) {
+		var firstPlayer = false;
+			function invokes(qNumber) {
 				params = {};
-				params = 'clickedOnQuestion&qNumber=' + qNumber;
+				if(firstPlayer==true){
+					firstPlayer=false;
+				}
+				else{
+					firstPlayer=true;
+				}
+				params = 'clickedOnQuestion&qNumber=' + qNumber + '&firstPlayer='+ firstPlayer;
+				
 				$.post('${kvizmester.action.MainGameActionBean}', params,
 						function(xml) {
 							$(".questionPanel").html(xml);
@@ -26,20 +34,54 @@
 								if (element == 1) {
 									var doboz = ".question." + i;
 									$(doboz).css('background', 'red');
+									$(doboz).addClass("answered");
 								}
 							}
-
+							
+							if(askedVar[askedVar.length-1]==100){
+								var doboz = ".playerInfo." + 1;
+								$(doboz).css('opacity', '1');
+								var doboz = ".playerInfo." + 2;
+								$(doboz).css('opacity', '0.5');
+							}
+							else{
+								var doboz = ".playerInfo." + 2;
+								$(doboz).css('opacity', '1');
+								var doboz = ".playerInfo." + 1;
+								$(doboz).css('opacity', '0.5');
+							}
 						});
+			}
+			
+			
+			function pointsHandler() {
+				params = {};
+				params = 'pointsHandler';
+				$.post('${kvizmester.action.MainGameActionBean}', params,
+						function(points) {
+							var pointsVar = eval(points);
+							for ( var i = 0; i < pointsVar.length; i++) {
+								element = pointsVar[i];
+									var doboz = ".points." + (i+1);
+									$(doboz).text(element+" pont");
+								
+							}
+							
+				});
 			}
 
 			var myVar = setInterval(function() {
 				questionHandler(".question");
-			}, 100);
+				pointsHandler();
+			}, 2000);
 
 			$(document).ready(function() {
 				$(".question").click(function() {
-					invoke($(this).attr('class').split(' ')[1]);
-					$(".questionPanel").css('display', 'block');
+					
+					if($(this).attr('class').split(' ')[2]!='answered'){
+						invokes($(this).attr('class').split(' ')[1]);
+						$(".questionPanel").css('display', 'block');
+					}
 					//$(this).css('background', 'red');
 				});
 			});
@@ -48,8 +90,8 @@
 		<h3>${actionBean.roomName}</h3>
 		<div class="gamePlace" style="height: 600px">
 			<div class="gameInfo" style="float: left">
-				<div class="playerInfo">${actionBean.game.player2}</div>
-				<div class="playerInfo">${actionBean.game.player1}</div>
+				<div class="playerInfo 1">${actionBean.game.player2}<br><div class="points 1"> 0 </div> pont</div>
+				<div class="playerInfo 2">${actionBean.game.player1}<br><div class="points 2"> 0 </div> pont</div>
 			</div>
 			<div class="questions" style="float: right; width: 70%">
 				<c:forEach begin="0" end="4" var="i">

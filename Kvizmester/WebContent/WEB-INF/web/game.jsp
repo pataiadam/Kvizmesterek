@@ -78,7 +78,7 @@
 							<!-- Gombok
 							================================================== -->
 							<div id="gameButtons">
-								<a class="bigbtn">Csatlakozás</a><br> <br> <br> <br>
+								<a id="joinGameBtn" class="bigbtn">Csatlakozás</a><br> <br> <br> <br>
 								<a id="createRoomBtn" class="bigbtn">Szoba létrehozása</a>
 							</div> <!-- Szoba létrehozás ablak
 							================================================== -->

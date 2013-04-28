@@ -1,12 +1,14 @@
 package kvizmester.action;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import kvizmester.beans.Game;
 import kvizmester.beans.Question;
+import kvizmester.beans.Room;
 import kvizmester.common.BaseActionBean;
+import kvizmester.test.Test;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -23,7 +25,9 @@ public class MainGameActionBean extends BaseActionBean {
 	private ArrayList<String> answers = new ArrayList<>();
 	private int[] categories;
 	private int qNumber;
-	
+	private String ans;
+	private boolean firstPlayer;
+	private String whoIsNext = "";
 
 	@DefaultHandler
 	public Resolution mainGame() {
@@ -31,6 +35,7 @@ public class MainGameActionBean extends BaseActionBean {
 		if (me.equals(tmp.getPlayer1()) || me.equals(tmp.getPlayer2())) {
 			this.game = GameActionBean.getGames().get(roomName);
 			this.categories=game.getCategories();
+			whoIsNext = GameActionBean.getGames().get(roomName).whoIsNext();
 			return new ForwardResolution(VIEW);
 		}
 		return new RedirectResolution(GameActionBean.class);
@@ -38,8 +43,11 @@ public class MainGameActionBean extends BaseActionBean {
 	
 	public Resolution clickedOnQuestion(){
 		this.game = GameActionBean.getGames().get(roomName);
+		whoIsNext = GameActionBean.getGames().get(roomName).whoIsNext();
+		System.out.println("AAAAAAAAAAAAAAAA user: "+getUser()+"whoN: "+whoIsNext);
+		if(!(getUser().getUsername().equals(whoIsNext))){
 		this.question=game.getQuestions().get(qNumber);
-		this.answers.add(this.question.getAnswer()+"Helyes");
+		this.answers.add(this.question.getAnswer());
 		this.answers.add(this.question.getWrongAnswer1());
 		this.answers.add(this.question.getWrongAnswer2());
 		this.answers.add(this.question.getWrongAnswer3());
@@ -49,19 +57,101 @@ public class MainGameActionBean extends BaseActionBean {
 			tmp[qNumber]=1;
 			this.game.setAskedQuestions(tmp);
 		}
-		System.out.println("óóóóóóóóó"+qNumber);
+		
 		return new ForwardResolution("/WEB-INF/web/test.jsp");
+		}
+		return new ForwardResolution("/WEB-INF/web/noTest.jsp");
 	}
 	
 	public Resolution questionHandler(){
-		System.out.println("asshole");
+		System.out.println("ajax");
+		whoIsNext = GameActionBean.getGames().get(roomName).whoIsNext();
+		System.out.println("pontok: "+GameActionBean.getGames().get(roomName).getPlayer1Point()+" "+GameActionBean.getGames().get(roomName).getPlayer2Point());
 		ArrayList<Integer> asked = new ArrayList<>();
+		int j=0;
 		for(int i : GameActionBean.getGames().get(roomName).getAskedQuestions()){
 			asked.add(i);
+			if(i==1){
+				j++;
+			}
 		}
+		if(GameActionBean.getGames().get(roomName).isPlayer1IsNext()){
+			asked.add(100);	
+		}
+		else{
+			asked.add(200);
+		}
+			
+			if(j>=10){
+				Room room = null;
+				for(Room r : GameActionBean.getStaticRooms()){
+					if(r.getRoomName().equals(roomName)){
+						room=r;
+					}
+				}
+				GameActionBean.getStaticRooms().remove(room);
+			}
 		return new JavaScriptResolution(asked);
 	}
 	
+	public Resolution answerTheQuestion(){
+		System.out.println("answer");
+		this.game = GameActionBean.getGames().get(roomName);
+		this.question=game.getQuestions().get(qNumber);
+		String ujAns = "";
+		try {
+			byte[] ptext = ans.getBytes("ISO-8859-1");
+			ujAns = new String(ptext); 
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(ujAns);
+		System.out.println(question.getAnswer());
+
+		String asked = "Helytelen!";
+		if(ujAns.equals(question.getAnswer())){
+			asked="Helyes!";
+			if(game.getPlayer2().equals(getUser().getUsername())){
+				game.setPlayer1Point(game.getPlayer1Point()+question.getLevel());
+			}else{
+				game.setPlayer2Point(game.getPlayer2Point()+question.getLevel());
+			}
+		}
+		else{
+			if(game.getPlayer2().equals(getUser().getUsername())){
+				game.setPlayer1Point(game.getPlayer1Point()-question.getLevel());
+			}else{
+				game.setPlayer2Point(game.getPlayer2Point()-question.getLevel());
+			}
+		}
+		
+		if(GameActionBean.getGames().get(roomName).isPlayer1IsNext()){
+			GameActionBean.getGames().get(roomName).setPlayer1IsNext(false);
+		}
+		else{
+			GameActionBean.getGames().get(roomName).setPlayer1IsNext(true);		
+		}
+		
+		return new JavaScriptResolution(asked);
+	}
+	 
+
+	public Resolution pointsHandler(){
+		int[] points = new int[2];
+		this.game=GameActionBean.getGames().get(roomName);
+		points[0]=game.getPlayer1Point();
+		points[1]=game.getPlayer2Point();
+		
+		return new JavaScriptResolution(points);
+	}
+
+	public Resolution gameEnd(){
+		Test test = new Test();
+		
+		
+		return new JavaScriptResolution("Game.action");
+	}
 
 	public String getMe() {
 		return me;
@@ -119,5 +209,28 @@ public class MainGameActionBean extends BaseActionBean {
 		this.answers = answers;
 	}
 
+	public String getAns() {
+		return ans;
+	}
+
+	public void setAns(String ans) {
+		this.ans = ans;
+	}
+
+	public boolean isFirstPlayer() {
+		return firstPlayer;
+	}
+
+	public void setFirstPlayer(boolean firstPlayer) {
+		this.firstPlayer = firstPlayer;
+	}
+
+	public String getWhoIsNext() {
+		return whoIsNext;
+	}
+
+	public void setWhoIsNext(String whoIsNext) {
+		this.whoIsNext = whoIsNext;
+	}
 
 }

@@ -1,5 +1,6 @@
 package kvizmester.beans;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,8 +10,13 @@ import kvizmester.test.Test;
 public class Game {
 	private String player1;
 	private String player2;
-	private boolean player1IsHere = false;
+	private int player1Id;
+	private int player2Id;
+	private int player1Point;
+	private int player2Point;
+	private boolean player1IsHere = true;
 	private boolean player2IsHere = false;
+	private boolean player1IsNext= true;
 	private int tmp;
 	private List<Question> questions = new ArrayList<>();
 	private int[] askedQuestions = new int[25]; //1 ha igen, különben nem
@@ -22,7 +28,17 @@ public class Game {
 		Test test = new Test();
 		this.categories=generateCategory(test);
 		generateQuestions(test, this.categories);
+		
+		
+		
+		try {
+			test.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.player1 = player1;
+		
 	}
 
 	private int[] generateCategory(Test test) {
@@ -45,7 +61,6 @@ public class Game {
 				categoriesName[i] = test.getAllCategory().get(rand).getNev();
 			}
 		}
-		
 		return catIdArray;
 	}
 	
@@ -57,7 +72,6 @@ public class Game {
 				System.out.println(questions.get(questions.size()-1).getQuestion());
 			}
 		}
-		
 		return null;
 	}
 
@@ -127,6 +141,57 @@ public class Game {
 
 	public void setAskedQuestions(int[] askedQuestions) {
 		this.askedQuestions = askedQuestions;
+	}
+
+	public boolean isPlayer1IsNext() {
+		return player1IsNext;
+	}
+
+	public void setPlayer1IsNext(boolean player1IsNext) {
+		this.player1IsNext = player1IsNext;
+	}
+	
+	public String whoIsNext(){
+		System.out.println("WWWWWWWWWWWWWWWWWWWWW "+player1IsNext);
+		System.out.println(player1 + " " + player2);
+		if(player1IsNext){
+			return player1;
+		}
+		else{
+			return player2;
+		}
+	}
+
+	public int getPlayer1Point() {
+		return player1Point;
+	}
+
+	public void setPlayer1Point(int player1Point) {
+		this.player1Point = player1Point;
+	}
+
+	public int getPlayer2Point() {
+		return player2Point;
+	}
+
+	public void setPlayer2Point(int player2Point) {
+		this.player2Point = player2Point;
+	}
+
+	public int getPlayer1Id() {
+		return player1Id;
+	}
+
+	public void setPlayer1Id(int player1Id) {
+		this.player1Id = player1Id;
+	}
+
+	public int getPlayer2Id() {
+		return player2Id;
+	}
+
+	public void setPlayer2Id(int player2Id) {
+		this.player2Id = player2Id;
 	}
 
 }
