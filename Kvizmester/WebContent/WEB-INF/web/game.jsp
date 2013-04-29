@@ -77,8 +77,7 @@
 						<td id="createGame" height="600px">
 							<!-- Gombok
 							================================================== -->
-							<div id="gameButtons">
-								<a id="joinGameBtn" class="bigbtn">Csatlakozás</a><br> <br> <br> <br>
+							<div id="gameButtons"><br> <br> <br> <br>
 								<a id="createRoomBtn" class="bigbtn">Szoba létrehozása</a>
 							</div> <!-- Szoba létrehozás ablak
 							================================================== -->

@@ -50,6 +50,8 @@ public class ModifyRegActionBean extends BaseActionBean {
 	public Resolution modifyReg() {
 		int hiba = 0;
 		
+		id = getUser().getId();
+		
 		if(birthdate == null || email == null || birthdate.equals("") || email.equals("")) {
 			getContext().getValidationErrors().addGlobalError(
 	                new SimpleError("Minden mező megadása kötelező (új jelszót nem kell megadni, ha nem akarja megváltoztatni)!") );
@@ -83,6 +85,7 @@ public class ModifyRegActionBean extends BaseActionBean {
 		}
 		
 		if(hiba == 0) {
+			System.out.println("id: " + id);
 			boolean success = test.modifyUser(id, email, birthdate, oldpassword);
 			if(! success) {
 				hiba++;

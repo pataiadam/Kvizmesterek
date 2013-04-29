@@ -61,7 +61,7 @@ public class DummyForumActionBean extends BaseActionBean {
 			
 			
 				PreparedStatement preparedStatement = null;
-				SQL = "SELECT jatekos.felhasznalo_nev, jatekos.pontszam, forum.szoveg, forum.forum_id, forum.reply_id, datum, admin FROM forum, jatekos WHERE forum.jatekos_id=jatekos.jatekos_id and forum.reply_id is null order by forum_id DESC ";
+				SQL = "SELECT jatekos.felhasznalo_nev, jatekos.pontszam, forum.szoveg, forum.forum_id, forum.reply_id, datum, admin,to_char(forum.datum,'YYYY FMMonth DD HH24:MI') as formazottdatum FROM forum, jatekos WHERE forum.jatekos_id=jatekos.jatekos_id and forum.reply_id is null order by forum_id DESC ";
 				preparedStatement = connect.prepareStatement(SQL);		
 				rs = preparedStatement.executeQuery();						
 				 
@@ -80,7 +80,7 @@ public class DummyForumActionBean extends BaseActionBean {
 							rs.getInt("forum_id"),
 							rs.getInt("reply_id"),
 							rs.getDate("datum"),
-							rs.getDate("datum") + "<b> "+rs.getString("felhasznalo_nev")+"</b> írta:</b>"));
+							rs.getString("formazottdatum") + "-kor<b> "+rs.getString("felhasznalo_nev")+"</b> írta:</b>"));
 
 				
 					/*********************************/
@@ -89,7 +89,7 @@ public class DummyForumActionBean extends BaseActionBean {
 					
 					
 					PreparedStatement preparedStatement2 = null;
-					String SQL2 = "SELECT jatekos.felhasznalo_nev, jatekos.pontszam, forum.szoveg, forum.forum_id, forum.reply_id, datum, admin FROM forum, jatekos WHERE forum.jatekos_id=jatekos.jatekos_id and forum.reply_id="+rs.getInt("forum_id") +"order by forum_id DESC";
+					String SQL2 = "SELECT jatekos.felhasznalo_nev, jatekos.pontszam, forum.szoveg, forum.forum_id, forum.reply_id, datum, admin, to_char(forum.datum,'YYYY FMMonth DD HH24:MI') as formazottdatum FROM forum, jatekos WHERE forum.jatekos_id=jatekos.jatekos_id and forum.reply_id="+rs.getInt("forum_id") +"order by forum_id DESC";
 					preparedStatement2 = connect.prepareStatement(SQL2);		
 					ResultSet rs2 = preparedStatement2.executeQuery();						
 						 
@@ -104,7 +104,7 @@ public class DummyForumActionBean extends BaseActionBean {
 								rs2.getInt("forum_id"),
 								rs2.getInt("reply_id"),
 								rs2.getDate("datum"),
-								rs2.getDate("datum")+" <b>"+rs2.getString("felhasznalo_nev")+"</b> írta <b>"+rs.getString("felhasznalo_nev")+"</b> hozzászólására: "));
+								rs2.getString("formazottdatum")+"-kor <b>"+rs2.getString("felhasznalo_nev")+"</b> írta <b>"+rs.getString("felhasznalo_nev")+"</b> hozzászólására: "));
 					
 					}
 					
