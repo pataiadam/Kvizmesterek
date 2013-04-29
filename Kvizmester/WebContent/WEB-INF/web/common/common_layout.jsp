@@ -121,29 +121,29 @@
 	<div class="container">
 		<div class="marketing">
 			<h1>Játékszabályok</h1>
-			<p class="marketing-byline">Lorem ipsum blabla...</p>
+			<p class="marketing-byline">Olvass, vagy kérdezz a fórumon! :)</p>
 			<hr class="soften">
 			<div class="row-fluid">
 				<div class="span4">
 					<img src="img/responsive.png" alt="Responsive">
 					<h2>
-						<span class="firstword">Első</span> szabály
+						<span class="firstword" style="color: grey">Indíts</span> <span style="color: grey"> szobát</span>
 					</h2>
-					<p class="features">blabla</p>
+					<p class="features">A játék indítása után lehetőséged van szobát létrehozni. Adj a szobának egy nevet, és írd be kivel szeretnél játszani. Ezután már rögtön játszhattok is!</p>
 				</div>
 				<div class="span4">
 					<img src="img/think-creative.png" alt="Think Creative">
 					<h2>
-						<span class="firstword">Második</span> szabály
+						<span class="firstword" style="color: grey">Válaszolj</span> <span style="color: grey"> a kérdésekre</span>
 					</h2>
-					<p>blablaaa</p>
+					<p>A játékot felváltva játszáttok. Válaszolj minél több kérdésre helyesen és gyűjtsd be az érte járó pontokat. </p>
 				</div>
 				<div class="span4">
 					<img src="img/core-values.png" alt="Core Values">
 					<h2>
-						<span class="firstword">Harmadik</span> szabály
+						<span class="firstword" style="color: grey">Nyerd </span> <span style="color: grey">meg</span>
 					</h2>
-					<p>Ighrtzj</p>
+					<p>Ha több pontot sikerült gyűjtened, mint az ellenfeled akkor nyertél, és felkerülsz a verseny ranglistára. Sok Sikert! :)</p>
 				</div>
 			</div>
 			<hr class="soften">

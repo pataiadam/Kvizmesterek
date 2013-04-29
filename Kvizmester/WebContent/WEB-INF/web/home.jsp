@@ -9,7 +9,7 @@
 	<s:layout-component name="body">
 		<div class="container show-case-item">
 		    <h1> Kvízmester<br /> </h1>
-		    <p> Lorem ipsum blabla szöveg!</p>
+		    <p> Egy mesteri kvízjáték!</p>
 		    <a href="${gameURL}" class="bigbtn" >Játék indítása</a>
 		    <div class="clearfix"> </div>
 		  </div>
