@@ -5,7 +5,7 @@ import java.util.List;
 import kvizmester.beans.Category;
 import kvizmester.beans.Question;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -45,7 +45,7 @@ public class QuestionsActionBean extends BaseActionBean {
 	
 	@DefaultHandler
 	public Resolution view() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		categoryList = test.getAllCategory();
 		
@@ -55,7 +55,7 @@ public class QuestionsActionBean extends BaseActionBean {
 	}
 	
 	public Resolution newQuestion() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		categoryList = test.getAllCategory();
 		
@@ -63,7 +63,7 @@ public class QuestionsActionBean extends BaseActionBean {
 	}
 	
 	public Resolution uploadQuestion() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		
 		if(! test.uploadQuestion(categoryId, question, answer, wrongAnswer1, wrongAnswer2, wrongAnswer3, level)) {
@@ -80,7 +80,7 @@ public class QuestionsActionBean extends BaseActionBean {
 	}
 	
 	public Resolution deleteQuestion() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 				
 		if(! test.deleteQuestion(deleteQuestionId)) {
 			getContext().getValidationErrors().addGlobalError(
@@ -96,7 +96,7 @@ public class QuestionsActionBean extends BaseActionBean {
 	}
 	
 	public Resolution updateQuestion() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 				
 		if(! test.updateQuestionById(modifyQuestionId, categoryId, question, answer, wrongAnswer1, wrongAnswer2, wrongAnswer3, level)) {
 			getContext().getValidationErrors().addGlobalError(

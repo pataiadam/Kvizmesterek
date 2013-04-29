@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import kvizmester.beans.User;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -84,7 +84,7 @@ public class LoginActionBean extends BaseActionBean {
 	}
 	
 	public Resolution login() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 
 		if (test.validateUser(username, password)) {
 			User user = test.getUserByUsername(username);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import kvizmester.beans.User;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
@@ -23,7 +23,7 @@ public class UsersActionBean extends BaseActionBean {
 	
 	@DefaultHandler
 	public Resolution view() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		users = test.getAllUsers();
 		
@@ -31,7 +31,7 @@ public class UsersActionBean extends BaseActionBean {
 	}
 	
 	public Resolution deleteUserById() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		if(test.deleteUserById(deleteUserId)) {
 			getContext().getMessages().add(new LocalizableMessage("delete.successful"));

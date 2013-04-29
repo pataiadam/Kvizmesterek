@@ -8,14 +8,14 @@
 	<s:url beanclass="kvizmester.action.QuestionsActionBean" var="deleteURL" event="deleteQuestion" />
 	
 	<script type="text/javascript">
-	/*$(document).ready(function(){
+	$(document).ready(function(){
 		$('#usersTable').dataTable({
 			"sScrollY": "500px",
 	        "bPaginate": false,
 	        "bScrollCollapse": true
 			
 	    });
- 	}); */      	
+ 	});     	
 
 	function deleteAdvertising(id, name) {
 		if (confirm('Biztosan törölni kívánja a(z) \'' + name + '\' kérdést?')) { 
@@ -25,7 +25,7 @@
 	
 </script>
 
-<div style="height: 600px; overflow-y: auto; overflow-x: hidden">
+<div style="height: 600px; overflow-y: auto; overflow-x: auto">
 <table id="usersTable" class="tablesorter">
 	<thead>
 		<tr>
@@ -99,7 +99,7 @@
 	</c:forEach>
 	</table></div>
 	<div align="center" style="margin-top: 10px;">
-		<a href="${newQuestionURL}"><input type="submit" value="Új hirdetés"></a>
+		<a href="${newQuestionURL}"><input type="submit" value="Új kérdés"></a>
 	</div>
 	
 	</s:layout-component>

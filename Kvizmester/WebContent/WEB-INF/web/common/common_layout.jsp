@@ -14,6 +14,7 @@
 <s:url beanclass="kvizmester.action.CategoryActionBean" var="categoryURL" />
 <s:url beanclass="kvizmester.action.QuestionsActionBean" var="questionsURL" />
 <s:url beanclass="kvizmester.action.AdvertisingActionBean" var="advertURL" />
+<s:url beanclass="kvizmester.action.UserHighScoresActionBean" var="statURL" />
 
 <s:layout-definition>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -62,7 +63,7 @@
 
 								<c:if test="${actionBean.role == 'VISITOR'}">
 									<ul class="nav">
-										<li class="active"><a href="${loginURL }">Bejelentkezés</a>
+										<li><a href="${loginURL }">Bejelentkezés</a>
 										</li>
 										<li><a href="${registerURL }">Regisztráció</a></li>
 									</ul>
@@ -76,18 +77,18 @@
 										<li><a href="${questionsURL }"> Kérdések </a></li>
 										<li><a href="${advertURL }"> Reklámok </a></li>
 										<li><a href="${ForumURL}"> Fórum </a></li>
+																				<li><a href="${statURL}"> Statisztika </a></li>
+										
 										<li><a href="${logoutURL}"> Kijelentkezés </a></li>
 									</ul>
 								</c:if>
 
 								<c:if test="${actionBean.role == 'USER'}">
 									<ul class="nav">
-										<li class="active"><a href="${homeURL }">Kezdőlap</a></li>
+										<li><a href="${homeURL }">Kezdőlap</a></li>
 										<li><a href="${modifyURL }"> Adatmódosítás </a></li>
-										<li><a href=""> Statisztika </a></li>
-										<li><a href=""> Ranglista </a></li>
+										<li><a href="${statURL}"> Statisztika </a></li>
 										<li><a href="${ForumURL}"> Fórum </a></li>
-										<li><a href=""> Verseny </a></li>
 										<li><a href="${logoutURL}"> Kijelentkezés </a></li>
 									</ul>
 								</c:if>

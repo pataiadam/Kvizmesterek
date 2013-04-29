@@ -10,7 +10,7 @@ import kvizmester.beans.Game;
 import kvizmester.beans.Question;
 import kvizmester.beans.Room;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -110,7 +110,7 @@ public class MainGameActionBean extends BaseActionBean {
 		}
 		System.out.println(ujAns);
 		System.out.println(question.getAnswer());
-		Test test=new Test();
+		OracleConnection test=new OracleConnection();
 		String asked = "Helytelen!";
 		if(ujAns.equals(question.getAnswer())){
 			asked="Helyes!";
@@ -154,7 +154,7 @@ public class MainGameActionBean extends BaseActionBean {
 	}
 
 	public Resolution gameEnd(){
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		this.game=GameActionBean.getGames().get(roomName);
 		test.updateScore(game.getPlayer1Id(), game.getPlayer1Point());
 		test.updateScore(game.getPlayer2Id(), game.getPlayer2Point());

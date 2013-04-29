@@ -1,5 +1,6 @@
 package kvizmester.action;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +13,7 @@ import java.util.GregorianCalendar;
 import kvizmester.beans.Bejegyzes;
 import kvizmester.beans.User;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -30,7 +31,7 @@ public class DummyForumActionBean extends BaseActionBean {
 
 	
 	private User userObj;
-	private Test test=new Test();
+	private OracleConnection test=new OracleConnection();
 	private String user="";
 	private String SQL="";
 	
@@ -146,6 +147,14 @@ public class DummyForumActionBean extends BaseActionBean {
 		return new ForwardResolution(VIEW2);
 	}
 	public Resolution updateComment() {
+		byte[] ptext = null;
+		try {
+			ptext = updateComm.getBytes("ISO-8859-1");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		updateComm = new String(ptext); 
 	
 		try{
 		
@@ -174,7 +183,14 @@ public class DummyForumActionBean extends BaseActionBean {
 		
 	}
 	public Resolution addComment() {
-		System.out.println("addComment"+comm);
+		byte[] ptext = null;
+		try {
+			ptext = comm.getBytes("ISO-8859-1");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comm = new String(ptext); 
 		
 		
 		try {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 
 public class Game {
 	private String player1;
@@ -27,7 +27,7 @@ public class Game {
 	private Random gen = new Random();
 
 	public Game(String player1) {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		this.categories=generateCategory(test);
 		generateQuestions(test, this.categories);
 		
@@ -43,7 +43,7 @@ public class Game {
 		
 	}
 
-	private int[] generateCategory(Test test) {
+	private int[] generateCategory(OracleConnection test) {
 		int[] catIdArray = new int[5];
 		categoriesName = new String[5];
 		for (int i = 0; i < 5; i++) {
@@ -66,7 +66,7 @@ public class Game {
 		return catIdArray;
 	}
 	
-	private List<Question> generateQuestions(Test test, int[] catIds){
+	private List<Question> generateQuestions(OracleConnection test, int[] catIds){
 		for(int i=0; i<catIds.length; i++){
 			int qSize =test.getAllQuestionsFromCategory(catIds[i]).size();
 			for(int j=0; j<5; j++){

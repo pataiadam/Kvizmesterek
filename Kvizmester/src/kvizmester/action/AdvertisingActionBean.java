@@ -5,7 +5,7 @@ import java.util.List;
 
 import kvizmester.beans.Advertising;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -38,7 +38,7 @@ public class AdvertisingActionBean extends BaseActionBean {
 		if(url != null) {
 			return uploadAdvertising();
 		}
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		advertisingList = test.getAllAdvertising();
 		
@@ -51,7 +51,7 @@ public class AdvertisingActionBean extends BaseActionBean {
 	
 	public Resolution uploadAdvertising() {
 		
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		if(! test.uploadAdvertising(url, beginning, end)) {
 			getContext().getValidationErrors().addGlobalError(
@@ -65,7 +65,7 @@ public class AdvertisingActionBean extends BaseActionBean {
 	}
 	
 	public Resolution deleteAdvertising() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		if(! test.deleteAdvertisingById(deleteAdvertisingId)) {
 			getContext().getValidationErrors().addGlobalError(
@@ -78,7 +78,7 @@ public class AdvertisingActionBean extends BaseActionBean {
 	}
 	
 	public Resolution updateAdvertising() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		if(! test.updateAdvertising(modifyAdvertisingId, url, beginning, end)) {
 			getContext().getValidationErrors().addGlobalError(

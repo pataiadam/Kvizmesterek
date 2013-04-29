@@ -8,7 +8,7 @@ import java.util.Map;
 import kvizmester.beans.Game;
 import kvizmester.beans.Room;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -32,7 +32,7 @@ public class GameActionBean extends BaseActionBean {
 	}
 
     public Resolution submit() {
-    	Test test = new Test();
+    	OracleConnection test = new OracleConnection();
     	try{
 	    	Room tmpR = new Room(text, player);
 	    	tmpR.setCreaterName(myName);

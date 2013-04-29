@@ -4,7 +4,7 @@ import java.util.List;
 
 import kvizmester.beans.Category;
 import kvizmester.common.BaseActionBean;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
@@ -36,7 +36,7 @@ public class CategoryActionBean extends BaseActionBean {
 			return uploadCategory();
 		}
 				
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		categoryList = test.getAllCategory();
 		
@@ -49,7 +49,7 @@ public class CategoryActionBean extends BaseActionBean {
 	}
 	
 	public Resolution uploadCategory() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		Category c = test.getCategoryByName(newCategoryName);
 		
@@ -71,7 +71,7 @@ public class CategoryActionBean extends BaseActionBean {
 	}
 	
 	public Resolution deleteCategory() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		if(test.deleteCategoryById(deleteCategoryId) == false) {
 			getContext().getValidationErrors().addGlobalError(
@@ -86,7 +86,7 @@ public class CategoryActionBean extends BaseActionBean {
 	}
 	
 	public Resolution updateCategory() {
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		if(! test.updateCategory(modifyCategoryId, newCategoryName)) {
 			getContext().getValidationErrors().addGlobalError(

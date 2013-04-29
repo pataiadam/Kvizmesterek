@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import kvizmester.beans.User;
 import kvizmester.common.BaseActionBean;
 import kvizmester.common.EmailValidator;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
@@ -60,7 +60,7 @@ public class RegisterActionBean extends BaseActionBean {
 			hiba++;
 		}
 		
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		User user = test.getUserByUsername(username);
 		

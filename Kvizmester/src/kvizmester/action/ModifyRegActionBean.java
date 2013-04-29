@@ -10,7 +10,7 @@ import net.sourceforge.stripes.validation.SimpleError;
 import kvizmester.beans.User;
 import kvizmester.common.BaseActionBean;
 import kvizmester.common.EmailValidator;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 
 public class ModifyRegActionBean extends BaseActionBean {
 	/**
@@ -69,7 +69,7 @@ public class ModifyRegActionBean extends BaseActionBean {
 		
 		
 		
-		Test test = new Test();
+		OracleConnection test = new OracleConnection();
 		
 		boolean validate = test.validateUser(username, oldpassword);
 		if(! validate) {

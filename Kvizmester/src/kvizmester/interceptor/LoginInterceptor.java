@@ -9,7 +9,7 @@ import kvizmester.action.LoginActionBean;
 import kvizmester.action.RegisterActionBean;
 import kvizmester.common.BaseActionBean;
 import kvizmester.common.BaseActionBeanContext;
-import kvizmester.test.Test;
+import kvizmester.oracledatabase.OracleConnection;
 import kvizmester.utils.Role;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;

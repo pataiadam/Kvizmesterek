@@ -1,4 +1,4 @@
-package kvizmester.test;
+package kvizmester.oracledatabase;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -20,13 +20,18 @@ import kvizmester.beans.Advertising;
 import kvizmester.beans.Category;
 import kvizmester.beans.Question;
 import kvizmester.beans.User;
+import kvizmester.beans.statistics.CategoryLevel;
+import kvizmester.beans.statistics.UserForumComments;
+import kvizmester.beans.statistics.UserHighScore;
+import kvizmester.beans.statistics.UserHighScoreByCategory;
+import kvizmester.beans.statistics.UserWonGames;
 import kvizmester.utils.Role;
 
 /**
  * Servlet implementation class Test
  */
 @WebServlet(description = "Test Servlet", urlPatterns = { "/test" })
-public class Test extends HttpServlet {
+public class OracleConnection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String String = null;
 	
@@ -35,7 +40,7 @@ public class Test extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Test() {	
+	public OracleConnection() {	
 		super();
 		try {
 			connection = this.connect();
@@ -1436,8 +1441,436 @@ public class Test extends HttpServlet {
 		return true;
 	}
 	
+	public List<CategoryLevel> getCategoryLevelStatistics() {
+		List<CategoryLevel> categories = new ArrayList<CategoryLevel>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "SELECT kategoria.nev, avg(kerdes.szint) FROM kategoria,kerdes WHERE kerdes.kategoria_id=kategoria.kategoria_id GROUP BY kategoria.nev";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String category = rs.getString("nev");
+				double level = rs.getDouble("avg(kerdes.szint)");
+				CategoryLevel c = new CategoryLevel(category, level);
+				categories.add(c);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
+	public List<UserHighScore> getUserHighScores() {
+		List<UserHighScore> categories = new ArrayList<UserHighScore>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "SELECT felhasznalo_nev, pontszam, szuletesnap FROM jatekos ORDER BY pontszam DESC";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("felhasznalo_nev");
+				int score = rs.getInt("pontszam");
+				Date birth = new Date(rs.getDate("szuletesnap").getTime());
+				
+				UserHighScore h = new UserHighScore(name, score, birth);
+				
+				categories.add(h);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
+	
+	public List<UserHighScoreByCategory> getUserHighScoresByCategory() {
+		List<UserHighScoreByCategory> categories = new ArrayList<UserHighScoreByCategory>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "select jatekos.felhasznalo_nev, jatekos.pontszam, kategoria.nev, (jatekos_statisztika.helyes / jatekos_statisztika.kerdezve) from jatekos, jatekos_statisztika, kategoria where jatekos.jatekos_id = jatekos_statisztika.jatekos_id and jatekos_statisztika.kategoria_id = kategoria.kategoria_id ORDER BY kategoria.nev";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("felhasznalo_nev");
+				int score = rs.getInt("pontszam");
+				String category = rs.getString("nev");
+				double relativeAnswers = rs.getDouble(4);
+				
+				
+				
+				UserHighScoreByCategory h = new UserHighScoreByCategory(name, score, category, relativeAnswers);
+				
+				categories.add(h);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
+	public List<UserForumComments> getUserForumCommentsStatistics() {
+		List<UserForumComments> categories = new ArrayList<UserForumComments>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "select jatekos.felhasznalo_nev, count(forum.forum_id) from forum, jatekos where forum.jatekos_id = jatekos.jatekos_id group by jatekos.felhasznalo_nev";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("felhasznalo_nev");
+				int numOfComments = rs.getInt(2);
+				
+				
+				
+				UserForumComments h = new UserForumComments(name, numOfComments);
+				
+				categories.add(h);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
+	public List<UserWonGames> getUserWonStatistics() {
+		List<UserWonGames> categories = new ArrayList<UserWonGames>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "select jatekos.felhasznalo_nev, count(jatekos.felhasznalo_nev) from jatekos, verseny where jatekos.jatekos_id = verseny.nyertes_id group by jatekos.felhasznalo_nev ORDER BY count(jatekos.felhasznalo_nev) DESC";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("felhasznalo_nev");
+				int won = rs.getInt(2);
+				
+				
+				
+				UserWonGames h = new UserWonGames(name, won);
+				
+				categories.add(h);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
+	public List<CategoryLevel> getMaxLevelByCategories() {
+		List<CategoryLevel> categories = new ArrayList<CategoryLevel>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "select kategoria.nev, max(kerdes.szint) from kerdes INNER JOIN kategoria on kategoria.kategoria_id = kerdes.kategoria_id group by kategoria.nev ORDER BY kategoria.nev";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("nev");
+				int level = rs.getInt(2);
+				
+				
+				
+				CategoryLevel h = new CategoryLevel(name, level);
+				
+				categories.add(h);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
+	public List<CategoryLevel> getMinLevelByCategories() {
+		List<CategoryLevel> categories = new ArrayList<CategoryLevel>();
+		
+		if(connection == null) {
+			try {
+				connection = this.connect();
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		PreparedStatement preparedStatement = null;
+		
+		String adverts = "select kategoria.nev, min(kerdes.szint) from kerdes INNER JOIN kategoria on kategoria.kategoria_id = kerdes.kategoria_id group by kategoria.nev ORDER BY kategoria.nev";
+ 
+		try {
+			
+			
+			preparedStatement = connection.prepareStatement(adverts);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("nev");
+				int level = rs.getInt(2);
+				
+				
+				
+				CategoryLevel h = new CategoryLevel(name, level);
+				
+				categories.add(h);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return categories;
+			
+ 
+		} finally {
+ 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return categories;
+	}
+	
 	public void closeConnection() throws SQLException {
+		if(connection != null) {
 		connection.close();
+		connection = null;
+		}
 	}
 	
 
